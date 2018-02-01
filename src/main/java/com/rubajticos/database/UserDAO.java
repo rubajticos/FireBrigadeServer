@@ -1,11 +1,13 @@
 package com.rubajticos.database;
 
+import com.rubajticos.database.interfaces.InterfaceUserDAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO {
+public class UserDAO implements InterfaceUserDAO {
 
     private Connection connection;
     private PreparedStatement preparedStatement;
@@ -44,4 +46,13 @@ public class UserDAO {
 
     }
 
+    @Override
+    public boolean login(String username, String password) {
+        return false;
+    }
+
+    @Override
+    public boolean register(String username, String password, String name, String voivodeship, String district, String community, String city, int ksrg) {
+        return false;
+    }
 }
