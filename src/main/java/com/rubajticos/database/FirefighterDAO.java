@@ -4,6 +4,7 @@ import com.rubajticos.database.interfaces.InterfaceFirefighterDAO;
 import com.rubajticos.model.Firefighter;
 
 import java.util.Date;
+import java.util.HashSet;
 
 public class FirefighterDAO implements InterfaceFirefighterDAO {
 
@@ -37,6 +38,11 @@ public class FirefighterDAO implements InterfaceFirefighterDAO {
 
     @Override
     public Firefighter selectFirefighter(String name, String lastname, String FireBrigadeName) {
+        return null;
+    }
+
+    @Override
+    public HashSet<Firefighter> selectFirefighters(int idFireBrigade) {
         return null;
     }
 }

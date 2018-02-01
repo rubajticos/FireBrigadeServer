@@ -3,6 +3,7 @@ package com.rubajticos.database.interfaces;
 import com.rubajticos.model.Firefighter;
 
 import java.util.Date;
+import java.util.HashSet;
 
 public interface InterfaceFirefighterDAO {
 
@@ -17,6 +18,8 @@ public interface InterfaceFirefighterDAO {
     Firefighter selectFirefighter(String name, String lastname);
 
     Firefighter selectFirefighter(String name, String lastname, String FireBrigadeName);
+
+    HashSet<Firefighter> selectFirefighters(int idFireBrigade);
 
 
 }
