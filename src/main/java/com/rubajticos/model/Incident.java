@@ -13,6 +13,7 @@ public class Incident {
 
     private HashSet<FireBrigade> fireBrigades;
     private HashSet<HashSet<Car>> cars;
+    private HashSet<String[]> time;
     private HashSet<HashSet<Firefighter>> firefighters;
     private HashSet<HashSet<Equipment>> equipments;
 
@@ -98,5 +99,13 @@ public class Incident {
 
     public void setEquipments(HashSet<HashSet<Equipment>> equipments) {
         this.equipments = equipments;
+    }
+
+    public HashSet<String[]> getTime() {
+        return time;
+    }
+
+    public void setTime(HashSet<String[]> time) {
+        this.time = time;
     }
 }
