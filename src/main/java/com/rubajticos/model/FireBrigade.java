@@ -15,7 +15,7 @@ public class FireBrigade {
     private HashSet<Firefighter> firefighters;
 
     public FireBrigade() {
-        this(-1, null, null, null, null, null, null);
+        this(-1, null, null, null, null, null, false);
     }
 
     public FireBrigade(int id, String name) {
