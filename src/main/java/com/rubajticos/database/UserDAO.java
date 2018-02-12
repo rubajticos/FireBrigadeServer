@@ -12,8 +12,10 @@ public class UserDAO implements InterfaceUserDAO {
     private Connection connection;
     private PreparedStatement preparedStatement;
 
-    public int getFireBrigadeByUser(String username, String password) {
-        String query = "select * from fire_brigade where username = ? and password = ? ;";
+    @Override
+    public int login(String username, String password) {
+
+        String query = "select id_user from user where username = ? and password = ? ;";
         ResultSet rs = null;
         int result = -1;
         try {
@@ -24,31 +26,18 @@ public class UserDAO implements InterfaceUserDAO {
             preparedStatement.setString(2, password);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                System.out.println(
-                        "Name: " + rs.getString("name") +
-                                "\nVoivodeship: " + rs.getString("voivodeship") +
-                                "\nDistrict" + rs.getString("district") +
-                                "\nCommunity: " + rs.getString("community") +
-                                "\nCity: " + rs.getString("city") +
-                                "\nKSRG: " + rs.getString("is_in_ksrg")
-                );
+                result = rs.getInt(1);
             }
 
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            ;
         } finally {
             DbUtil.close(rs);
             DbUtil.close(preparedStatement);
             DbUtil.close(connection);
-
         }
         return result;
-
-    }
-
-    @Override
-    public boolean login(String username, String password) {
-        return false;
     }
 
     @Override
