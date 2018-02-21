@@ -1,5 +1,6 @@
 package com.rubajticos;
 
+import java.io.*;
 import java.net.Socket;
 
 public class ServerThread extends Thread {
@@ -13,6 +14,27 @@ public class ServerThread extends Thread {
     }
 
     public void run() {
-        // TODO: 30/01/2018 ServerThread methods
+        BufferedReader bufferedReader = null;
+        DataOutputStream dataOutputStream = null;
+        String line;
+
+        try {
+            InputStream inputStream = socket.getInputStream();
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+            OutputStream outputStream = socket.getOutputStream();
+            dataOutputStream = new DataOutputStream(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        while (true) {
+        try {
+            line = bufferedReader.readLine();
+            System.out.printf("Odebralem tekst: %s\n", line);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        }
     }
 }

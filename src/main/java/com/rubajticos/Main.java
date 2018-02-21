@@ -1,7 +1,5 @@
 package com.rubajticos;
 
-import com.rubajticos.database.UserDAO;
-
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,8 +11,8 @@ public class Main {
         ServerSocket serverSocket = null;
         Socket socket = null;
 
-        UserDAO u = new UserDAO();
-        System.out.println(u.login("rubajticos", "admin123"));
+//        UserDAO u = new UserDAO();
+//        System.out.println(u.login("rubajticos", "admin123"));
 
 
         try {
@@ -34,6 +32,7 @@ public class Main {
 
             n++;
             new ServerThread(socket, n).start();
+            System.out.println("START");
         }
 
     }
