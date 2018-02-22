@@ -1,8 +1,11 @@
 package com.rubajticos.database.interfaces;
 
+import com.rubajticos.model.FireBrigade;
+import com.rubajticos.model.User;
+
 public interface InterfaceUserDAO {
 
-    int login(String username, String password);
+    int login(User user);
 
-    boolean register(String username, String password, String name, String voivodeship, String district, String community, String city, int ksrg);
+    boolean register(FireBrigade firebrigade);
 }
