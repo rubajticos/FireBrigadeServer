@@ -30,7 +30,7 @@ public class UserDAO implements InterfaceUserDAO {
 
     private int loginUserAndReturnId(User user) throws SQLException, NullPointerException {
 
-        String query = "select id_user from usera where username = ? and password = ? ;";
+        String query = "select id_user from user where username = ? and password = ? ;";
         ResultSet rs = null;
 
         connection = ConnectionFactory.getConnection();
