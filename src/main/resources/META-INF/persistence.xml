@@ -6,6 +6,7 @@
         <!-- Persistence provider -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- Entity classes -->
+        <class>com.rubajticos.model.User</class>
         <!--<class>main.java.com.rubajticos.Student</class>-->
         <properties>
             <!-- The JDBC driver of your database -->

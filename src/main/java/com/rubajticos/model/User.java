@@ -1,10 +1,30 @@
 package com.rubajticos.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
 public class User {
 
+    int id;
     String username;
     String password;
 
+    public User() {
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user", unique = true, nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Column(name = "username", nullable = false)
     public String getUsername() {
         return username;
     }
@@ -13,6 +33,7 @@ public class User {
         this.username = username;
     }
 
+    @Column(name = "password", nullable = false)
     public String getPassword() {
         return password;
     }
