@@ -1,7 +1,10 @@
 package com.rubajticos.model;
 
-import java.util.HashSet;
+import javax.persistence.*;
+import java.util.Set;
 
+@Entity
+@Table(name = "fire_brigade")
 public class FireBrigade {
 
     private int idFireBrigade;
@@ -10,19 +13,19 @@ public class FireBrigade {
     private String district;
     private String community;
     private String city;
-    private boolean ksrg;
-
-    private HashSet<Firefighter> firefighters;
+    private int ksrg;
+    private User user;
+    private Set<Firefighter> firefighters;
 
     public FireBrigade() {
-        this(-1, null, null, null, null, null, false);
+        this(-1, null, null, null, null, null, -1);
     }
 
     public FireBrigade(int id, String name) {
-        this(id, name, null, null, null, null, null);
+        this(id, name, null, null, null, null, -1);
     }
 
-    public FireBrigade(int id, String name, String voivodeship, String district, String community, String city, Boolean ksrg) {
+    public FireBrigade(int id, String name, String voivodeship, String district, String community, String city, int ksrg) {
         this.idFireBrigade = id;
         this.name = name;
         this.voivodeship = voivodeship;
@@ -32,6 +35,9 @@ public class FireBrigade {
         this.ksrg = ksrg;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_fire_brigade", unique = true, nullable = false)
     public int getIdFireBrigade() {
         return idFireBrigade;
     }
@@ -40,6 +46,7 @@ public class FireBrigade {
         this.idFireBrigade = idFireBrigade;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -48,6 +55,7 @@ public class FireBrigade {
         this.name = name;
     }
 
+    @Column(name = "voivodeship")
     public String getVoivodeship() {
         return voivodeship;
     }
@@ -56,6 +64,7 @@ public class FireBrigade {
         this.voivodeship = voivodeship;
     }
 
+    @Column(name = "district")
     public String getDistrict() {
         return district;
     }
@@ -64,6 +73,7 @@ public class FireBrigade {
         this.district = district;
     }
 
+    @Column(name = "community")
     public String getCommunity() {
         return community;
     }
@@ -72,6 +82,7 @@ public class FireBrigade {
         this.community = community;
     }
 
+    @Column(name = "city")
     public String getCity() {
         return city;
     }
@@ -80,19 +91,30 @@ public class FireBrigade {
         this.city = city;
     }
 
-    public boolean isKsrg() {
+    @Column(name = "is_in_ksrg")
+    public int isKsrg() {
         return ksrg;
     }
 
-    public void setKsrg(boolean ksrg) {
+    public void setKsrg(int ksrg) {
         this.ksrg = ksrg;
     }
 
-    public HashSet<Firefighter> getFirefighters() {
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "stock")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @OneToMany(mappedBy = "fire_brigade")
+    public Set<Firefighter> getFirefighters() {
         return firefighters;
     }
 
-    public void setFirefighters(HashSet<Firefighter> firefighters) {
+    public void setFirefighters(Set<Firefighter> firefighters) {
         this.firefighters = firefighters;
     }
 }
