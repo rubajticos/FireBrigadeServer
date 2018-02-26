@@ -9,6 +9,7 @@ public class User {
     int id;
     String username;
     String password;
+    FireBrigade fireBrigade;
 
     public User() {
     }
@@ -40,5 +41,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    public FireBrigade getFireBrigade() {
+        return fireBrigade;
+    }
+
+    public void setFireBrigade(FireBrigade fireBrigade) {
+        this.fireBrigade = fireBrigade;
     }
 }
