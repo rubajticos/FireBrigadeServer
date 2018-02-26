@@ -43,8 +43,7 @@ public class User {
         this.password = password;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "user")
     public FireBrigade getFireBrigade() {
         return fireBrigade;
     }

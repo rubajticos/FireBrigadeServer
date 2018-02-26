@@ -6,5 +6,5 @@ public interface InterfaceUserDAO {
 
     int login(User user);
 
-    boolean register(User user);
+    User save(User user);
 }
