@@ -1,8 +1,11 @@
 package com.rubajticos.model;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
 
+@Entity
+@Table(name = "firefighter")
 public class Firefighter {
 
     private int idFirefighter;
@@ -10,6 +13,7 @@ public class Firefighter {
     private String lastName;
     private Date birthday;
     private Date expiryMedicalTest;
+    private FireBrigade fireBrigade;
 
     private HashSet<Training> firefighterTrainings;
 
@@ -29,6 +33,9 @@ public class Firefighter {
         this.expiryMedicalTest = expiryMedicalTest;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_firefighter", unique = true, nullable = false)
     public int getIdFirefighter() {
         return idFirefighter;
     }
@@ -37,6 +44,7 @@ public class Firefighter {
         this.idFirefighter = idFirefighter;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -45,6 +53,7 @@ public class Firefighter {
         this.name = name;
     }
 
+    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -53,6 +62,7 @@ public class Firefighter {
         this.lastName = lastName;
     }
 
+    @Column(name = "birthday")
     public Date getBirthday() {
         return birthday;
     }
@@ -61,12 +71,23 @@ public class Firefighter {
         this.birthday = birthday;
     }
 
+    @Column(name = "expiry_medical_test")
     public Date getExpiryMedicalTest() {
         return expiryMedicalTest;
     }
 
     public void setExpiryMedicalTest(Date expiryMedicalTest) {
         this.expiryMedicalTest = expiryMedicalTest;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_fire_brigade")
+    public FireBrigade getFireBrigade() {
+        return fireBrigade;
+    }
+
+    public void setFireBrigade(FireBrigade fireBrigade) {
+        this.fireBrigade = fireBrigade;
     }
 
     public HashSet<Training> getFirefighterTrainings() {
