@@ -100,7 +100,8 @@ public class FireBrigade {
         this.ksrg = ksrg;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "stock")
+    @OneToOne
+    @JoinColumn(name = "id_user")
     public User getUser() {
         return user;
     }
@@ -109,7 +110,7 @@ public class FireBrigade {
         this.user = user;
     }
 
-    @OneToMany(mappedBy = "fire_brigade")
+    @OneToMany(mappedBy = "fireBrigade")
     public Set<Firefighter> getFirefighters() {
         return firefighters;
     }

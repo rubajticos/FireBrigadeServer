@@ -4,7 +4,7 @@ import com.rubajticos.model.FireBrigade;
 
 public interface InterfaceFireBrigadeDAO {
 
-    boolean insertFireBrigade(String username, String password, String name, String voivodeship, String district, String community, String city, int ksrg);
+    FireBrigade insert(FireBrigade fireBrigade);
 
     boolean updateFireBrigade(int id, String name, String voivodeship, String district, String community, String city, int ksrg);
 

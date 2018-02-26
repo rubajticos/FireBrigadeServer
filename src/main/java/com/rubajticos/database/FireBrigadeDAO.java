@@ -2,22 +2,41 @@ package com.rubajticos.database;
 
 import com.rubajticos.database.interfaces.InterfaceFireBrigadeDAO;
 import com.rubajticos.model.FireBrigade;
+import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class FireBrigadeDAO implements InterfaceFireBrigadeDAO {
+    final static Logger logger = Logger.getLogger(UserDAO.class);
 
-    private Connection connection;
-    private PreparedStatement preparedStatement;
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("FireBrigade");
+    EntityManager manager = null;
 
     public FireBrigadeDAO() {
 
     }
 
     @Override
-    public boolean insertFireBrigade(String username, String password, String name, String voivodeship, String district, String community, String city, int ksrg) {
-        return false;
+    public FireBrigade insert(FireBrigade fireBrigade) {
+        try {
+            manager = entityManagerFactory.createEntityManager();
+            return insertFireBrigade(fireBrigade);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return null;
+        }
+    }
+
+    private FireBrigade insertFireBrigade(FireBrigade fireBrigade) throws Exception {
+        FireBrigade result;
+        manager.getTransaction().begin();
+        result = manager.merge(fireBrigade);
+        manager.getTransaction().commit();
+        manager.close();
+        entityManagerFactory.close();
+        return result;
     }
 
     @Override
