@@ -35,7 +35,6 @@ public class FireBrigadeDAO implements InterfaceFireBrigadeDAO {
         result = manager.merge(fireBrigade);
         manager.getTransaction().commit();
         manager.close();
-        entityManagerFactory.close();
         return result;
     }
 
