@@ -51,4 +51,10 @@ public class User {
     public void setFireBrigade(FireBrigade fireBrigade) {
         this.fireBrigade = fireBrigade;
     }
+
+    public void printUser() {
+        System.out.println("ID: " + id);
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
+    }
 }
