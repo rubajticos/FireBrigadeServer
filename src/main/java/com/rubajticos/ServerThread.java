@@ -5,11 +5,13 @@ import com.rubajticos.database.FireBrigadeDAO;
 import com.rubajticos.database.UserDAO;
 import com.rubajticos.model.FireBrigade;
 import com.rubajticos.model.User;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
 
 public class ServerThread extends Thread {
+    final static Logger logger = Logger.getLogger(UserDAO.class);
 
     private Socket socket;
     private int id;
@@ -55,9 +57,10 @@ public class ServerThread extends Thread {
                         fireBrigade = fireBrigadeDAO.insert(fireBrigade);
 
                         System.out.println("Koniec rejestracji");
+                        String result = gson.toJson(fireBrigade);
+                        System.out.println("wynik: " + result);
 
-                        dataOutputStream.writeBytes("true");
-                        dataOutputStream.flush();
+                        break;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
