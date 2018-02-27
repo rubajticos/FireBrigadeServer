@@ -1,5 +1,11 @@
 package com.rubajticos;
 
+import com.google.gson.Gson;
+import com.rubajticos.database.FireBrigadeDAO;
+import com.rubajticos.database.UserDAO;
+import com.rubajticos.model.FireBrigade;
+import com.rubajticos.model.User;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -28,13 +34,35 @@ public class ServerThread extends Thread {
             e.printStackTrace();
         }
 
-//        while (true) {
-        try {
-            line = bufferedReader.readLine();
-            System.out.printf("Odebralem tekst: %s\n", line);
-        } catch (Exception e) {
-            e.printStackTrace();
+        while (true) {
+            try {
+                line = bufferedReader.readLine();
+                if (!line.equals(null)) {
+                    System.out.println("LINE: " + line);
+                }
+                switch (line) {
+                    case "register":
+                        Gson gson = new Gson();
+                        UserDAO userDAO = new UserDAO();
+                        FireBrigadeDAO fireBrigadeDAO = new FireBrigadeDAO();
+                        System.out.println("Zaczynam rejestracje");
+                        User user = gson.fromJson(bufferedReader.readLine(), User.class);
+                        user.printUser();
+                        user = userDAO.save(user);
+
+                        FireBrigade fireBrigade = gson.fromJson(bufferedReader.readLine(), FireBrigade.class);
+                        fireBrigade.setUser(user);
+                        fireBrigade = fireBrigadeDAO.insert(fireBrigade);
+
+                        System.out.println("Koniec rejestracji");
+
+                        dataOutputStream.writeBytes("true");
+                        dataOutputStream.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
+            }
         }
-//        }
     }
 }
