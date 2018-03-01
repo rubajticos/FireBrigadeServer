@@ -1,10 +1,10 @@
-package com.rubajticos;
+package com.firebrigadeserver;
 
 import com.google.gson.Gson;
-import com.rubajticos.database.FireBrigadeDAO;
-import com.rubajticos.database.UserDAO;
-import com.rubajticos.model.FireBrigade;
-import com.rubajticos.model.User;
+import com.firebrigadeserver.dao.FireBrigadeDAO;
+import com.firebrigadeserver.dao.UserDAO;
+import com.firebrigadeserver.entity.FireBrigade;
+import com.firebrigadeserver.entity.User;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -59,7 +59,6 @@ public class ServerThread extends Thread {
                         System.out.println("Koniec rejestracji");
                         String result = gson.toJson(fireBrigade);
                         System.out.println("wynik: " + result);
-
                         break;
                 }
             } catch (IOException e) {

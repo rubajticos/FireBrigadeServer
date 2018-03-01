@@ -1,4 +1,4 @@
-package com.rubajticos.model;
+package com.firebrigadeserver.entity;
 
 import javax.persistence.*;
 import java.util.Set;

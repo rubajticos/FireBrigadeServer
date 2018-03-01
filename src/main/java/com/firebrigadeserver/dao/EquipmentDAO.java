@@ -1,6 +1,4 @@
-package com.rubajticos.database;
-
-import com.rubajticos.database.interfaces.InterfaceEquipmentDAO;
+package com.firebrigadeserver.dao;
 
 public class EquipmentDAO implements InterfaceEquipmentDAO {
 

@@ -1,7 +1,6 @@
-package com.rubajticos.database;
+package com.firebrigadeserver.dao;
 
-import com.rubajticos.database.interfaces.InterfaceIncidentDAO;
-import com.rubajticos.model.*;
+import com.firebrigadeserver.entity.*;
 
 import java.util.Date;
 import java.util.HashSet;

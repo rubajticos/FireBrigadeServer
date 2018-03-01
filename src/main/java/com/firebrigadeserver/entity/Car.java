@@ -1,4 +1,4 @@
-package com.rubajticos.model;
+package com.firebrigadeserver.entity;
 
 public class Car {
 

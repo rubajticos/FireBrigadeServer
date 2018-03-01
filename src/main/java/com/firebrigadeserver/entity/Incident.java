@@ -1,4 +1,4 @@
-package com.rubajticos.model;
+package com.firebrigadeserver.entity;
 
 import javax.xml.crypto.Data;
 import java.util.HashSet;

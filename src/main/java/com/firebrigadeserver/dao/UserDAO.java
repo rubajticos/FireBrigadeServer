@@ -1,7 +1,6 @@
-package com.rubajticos.database;
+package com.firebrigadeserver.dao;
 
-import com.rubajticos.database.interfaces.InterfaceUserDAO;
-import com.rubajticos.model.User;
+import com.firebrigadeserver.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;

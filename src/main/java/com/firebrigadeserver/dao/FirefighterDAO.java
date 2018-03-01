@@ -1,7 +1,6 @@
-package com.rubajticos.database;
+package com.firebrigadeserver.dao;
 
-import com.rubajticos.database.interfaces.InterfaceFirefighterDAO;
-import com.rubajticos.model.Firefighter;
+import com.firebrigadeserver.entity.Firefighter;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -13,7 +12,31 @@ public class FirefighterDAO implements InterfaceFirefighterDAO {
 
     @Override
     public boolean insertFirefighter(String name, String lastName, Date birthday, Date expiryMedicalTest, int fireBrigadeId) {
-        return false;
+/*        String query = "insert into firefighter(name, last_name, birthday, expiry_medical_test_, id_firebrigade)" +
+                "values (?, ?, ?, ?, ?);";
+        ResultSet rs = null;
+        int result = -1;
+        try {
+            connection = ConnectionFactory.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            ;
+        } finally {
+            DbUtil.close(rs);
+            DbUtil.close(preparedStatement);
+            DbUtil.close(connection);
+        }
+        return result;*/
+    return false;
     }
 
     @Override

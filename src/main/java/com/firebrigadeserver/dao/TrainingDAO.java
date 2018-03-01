@@ -1,6 +1,4 @@
-package com.rubajticos.database;
-
-import com.rubajticos.database.interfaces.InterfaceTrainingDAO;
+package com.firebrigadeserver.dao;
 
 public class TrainingDAO implements InterfaceTrainingDAO {
 

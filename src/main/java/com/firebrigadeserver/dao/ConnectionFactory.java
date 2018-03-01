@@ -1,4 +1,4 @@
-package com.rubajticos.database;
+package com.firebrigadeserver.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

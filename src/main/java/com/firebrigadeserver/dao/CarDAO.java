@@ -1,7 +1,6 @@
-package com.rubajticos.database;
+package com.firebrigadeserver.dao;
 
-import com.rubajticos.database.interfaces.InterfaceCarDAO;
-import com.rubajticos.model.Car;
+import com.firebrigadeserver.entity.Car;
 
 import java.util.HashSet;
 
