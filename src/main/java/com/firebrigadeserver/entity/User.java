@@ -1,28 +1,31 @@
 package com.firebrigadeserver.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
-    int id;
+    int userId;
     String username;
     String password;
-    FireBrigade fireBrigade;
+//    FireBrigade fireBrigade;
 
     public User() {
     }
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user", unique = true, nullable = false)
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int id) {
+        this.userId = id;
     }
 
     @Column(name = "username", nullable = false)
@@ -43,17 +46,17 @@ public class User {
         this.password = password;
     }
 
-    @OneToOne(mappedBy = "user")
-    public FireBrigade getFireBrigade() {
-        return fireBrigade;
-    }
-
-    public void setFireBrigade(FireBrigade fireBrigade) {
-        this.fireBrigade = fireBrigade;
-    }
+//    @OneToOne(mappedBy = "user")
+//    public FireBrigade getFireBrigade() {
+//        return fireBrigade;
+//    }
+//
+//    public void setFireBrigade(FireBrigade fireBrigade) {
+//        this.fireBrigade = fireBrigade;
+//    }
 
     public void printUser() {
-        System.out.println("ID: " + id);
+        System.out.println("ID: " + userId);
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
     }

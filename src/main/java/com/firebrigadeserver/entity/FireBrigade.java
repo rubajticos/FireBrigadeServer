@@ -1,11 +1,13 @@
 package com.firebrigadeserver.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "fire_brigade")
-public class FireBrigade {
+public class FireBrigade implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private int idFireBrigade;
     private String name;
