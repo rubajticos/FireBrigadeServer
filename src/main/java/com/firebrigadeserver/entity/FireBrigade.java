@@ -1,8 +1,9 @@
 package com.firebrigadeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "fire_brigade")
@@ -16,8 +17,9 @@ public class FireBrigade implements Serializable {
     private String community;
     private String city;
     private int ksrg;
+    @JsonIgnoreProperties("firebrigade")
     private User user;
-    private Set<Firefighter> firefighters;
+//    private Set<Firefighter> firefighters;
 
     public FireBrigade() {
         this(-1, null, null, null, null, null, -1);
@@ -112,12 +114,12 @@ public class FireBrigade implements Serializable {
         this.user = user;
     }
 
-    @OneToMany(mappedBy = "fireBrigade")
-    public Set<Firefighter> getFirefighters() {
-        return firefighters;
-    }
-
-    public void setFirefighters(Set<Firefighter> firefighters) {
-        this.firefighters = firefighters;
-    }
+//    @OneToMany(mappedBy = "fireBrigade")
+//    public Set<Firefighter> getFirefighters() {
+//        return firefighters;
+//    }
+//
+//    public void setFirefighters(Set<Firefighter> firefighters) {
+//        this.firefighters = firefighters;
+//    }
 }

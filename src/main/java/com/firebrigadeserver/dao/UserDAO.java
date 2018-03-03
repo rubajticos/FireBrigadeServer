@@ -20,7 +20,7 @@ public class UserDAO implements IUserDAO {
     @Override
     public List<User> getAllUsers() {
         try {
-            String hql = "FROM User as user ORDER by user.userId";
+            String hql = "from User as user order by user.userId";
             return (List<User>) entityManager.createQuery(hql).getResultList();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -43,7 +43,7 @@ public class UserDAO implements IUserDAO {
         User updateUser = getUserById(user.getUserId());
         updateUser.setUsername(user.getUsername());
         updateUser.setPassword(user.getPassword());
-//        updateUser.setFireBrigade(user.getFireBrigade());
+        updateUser.setFireBrigade(user.getFireBrigade());
         entityManager.flush();
     }
 
@@ -54,10 +54,10 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public boolean userExist(String login, String password) {
-        String hql = "FROM User as user where user.username = ? and user.password = ?";
+        String hql = "FROM User as user where username = :username and password = :password";
         int count = entityManager.createQuery(hql)
-                .setParameter(1, login)
-                .setParameter(2, password).getResultList().size();
+                .setParameter("username", login)
+                .setParameter("password", password).getResultList().size();
         return count > 0 ? true : false;
     }
 }

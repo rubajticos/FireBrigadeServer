@@ -3,16 +3,13 @@ package com.firebrigadeserver.controller;
 import com.firebrigadeserver.entity.User;
 import com.firebrigadeserver.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("user")
 public class UserController {
 
@@ -31,16 +28,14 @@ public class UserController {
         return new ResponseEntity<List<User>>(list, HttpStatus.OK);
     }
 
-    @PostMapping("user")
-    public ResponseEntity<Void> addUser(@RequestBody User user, UriComponentsBuilder builder) {
-        boolean flag = userService.addUser(user);
-        if (flag == false) {
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    public ResponseEntity<Void> addUser(@RequestBody User user) {
+        try {
+            userService.addUser(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/user/{id}").buildAndExpand(user.getUserId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @PutMapping("user")
@@ -49,7 +44,7 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @GetMapping("user/del/{id}")
+    @RequestMapping(value = "del/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
         userService.deleteUser(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
