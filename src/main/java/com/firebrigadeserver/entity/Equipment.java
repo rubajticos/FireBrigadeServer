@@ -1,10 +1,31 @@
 package com.firebrigadeserver.entity;
 
-public class Equipment {
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
+@Entity
+@Table(name = "equipment")
+public class Equipment implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_equipment")
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "type")
     private String type;
+
+    @ManyToOne
+    @JoinColumn(name = "id_firebrigade")
+    private FireBrigade fireBrigade;
+
+    @OneToMany(mappedBy = "equipment")
+    private List<CarEquipment> equipment;
+
 
     public Equipment() {
         this(-1, null, null);
@@ -42,5 +63,13 @@ public class Equipment {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public FireBrigade getFireBrigade() {
+        return fireBrigade;
+    }
+
+    public void setFireBrigade(FireBrigade fireBrigade) {
+        this.fireBrigade = fireBrigade;
     }
 }

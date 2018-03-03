@@ -1,5 +1,7 @@
 package com.firebrigadeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,7 +12,8 @@ public class User implements Serializable {
     int userId;
     String username;
     String password;
-//    FireBrigade fireBrigade;
+    @JsonIgnoreProperties("user")
+    FireBrigade fireBrigade;
 
     public User() {
     }
@@ -46,14 +49,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
-//    @OneToOne(mappedBy = "user")
-//    public FireBrigade getFireBrigade() {
-//        return fireBrigade;
-//    }
-//
-//    public void setFireBrigade(FireBrigade fireBrigade) {
-//        this.fireBrigade = fireBrigade;
-//    }
+    @OneToOne(mappedBy = "user")
+    public FireBrigade getFireBrigade() {
+        return fireBrigade;
+    }
+
+    public void setFireBrigade(FireBrigade fireBrigade) {
+        this.fireBrigade = fireBrigade;
+    }
 
     public void printUser() {
         System.out.println("ID: " + userId);

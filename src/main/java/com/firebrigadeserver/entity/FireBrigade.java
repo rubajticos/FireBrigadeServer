@@ -1,8 +1,10 @@
 package com.firebrigadeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "fire_brigade")
@@ -16,8 +18,12 @@ public class FireBrigade implements Serializable {
     private String community;
     private String city;
     private int ksrg;
+    @JsonIgnoreProperties("firebrigade")
     private User user;
-    private Set<Firefighter> firefighters;
+    private List<Firefighter> firefighters;
+    private List<Car> cars;
+    private List<Equipment> equipment;
+    private List<FirebrigadeIncident> incidents;
 
     public FireBrigade() {
         this(-1, null, null, null, null, null, -1);
@@ -94,7 +100,7 @@ public class FireBrigade implements Serializable {
     }
 
     @Column(name = "is_in_ksrg")
-    public int isKsrg() {
+    public int getKsrg() {
         return ksrg;
     }
 
@@ -113,11 +119,38 @@ public class FireBrigade implements Serializable {
     }
 
     @OneToMany(mappedBy = "fireBrigade")
-    public Set<Firefighter> getFirefighters() {
+    public List<Firefighter> getFirefighters() {
         return firefighters;
     }
 
-    public void setFirefighters(Set<Firefighter> firefighters) {
+    public void setFirefighters(List<Firefighter> firefighters) {
         this.firefighters = firefighters;
+    }
+
+    @OneToMany(mappedBy = "fireBrigade")
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+
+    @OneToMany(mappedBy = "fireBriagade")
+    public List<Equipment> getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(List<Equipment> equipment) {
+        this.equipment = equipment;
+    }
+
+    @OneToMany(mappedBy = "fireBrigade")
+    public List<FirebrigadeIncident> getIncidents() {
+        return incidents;
+    }
+
+    public void setIncidents(List<FirebrigadeIncident> incidents) {
+        this.incidents = incidents;
     }
 }

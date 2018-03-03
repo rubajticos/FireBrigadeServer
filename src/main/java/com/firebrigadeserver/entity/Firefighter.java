@@ -2,7 +2,7 @@ package com.firebrigadeserver.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Table(name = "firefighter")
@@ -15,7 +15,7 @@ public class Firefighter {
     private Date expiryMedicalTest;
     private FireBrigade fireBrigade;
 
-    private HashSet<Training> firefighterTrainings;
+    private List<FirefighterTraining> trainings;
 
     public Firefighter() {
         this(-1, null, null, null, null);
@@ -90,11 +90,12 @@ public class Firefighter {
         this.fireBrigade = fireBrigade;
     }
 
-    public HashSet<Training> getFirefighterTrainings() {
-        return firefighterTrainings;
+    @OneToMany(mappedBy = "firefighter")
+    public List<FirefighterTraining> getTrainings() {
+        return trainings;
     }
 
-    public void setFirefighterTrainings(HashSet<Training> firefighterTrainings) {
-        this.firefighterTrainings = firefighterTrainings;
+    public void setTrainings(List<FirefighterTraining> trainings) {
+        this.trainings = trainings;
     }
 }

@@ -1,21 +1,35 @@
 package com.firebrigadeserver.entity;
 
+import javax.persistence.*;
 import javax.xml.crypto.Data;
-import java.util.HashSet;
+import java.util.List;
 
+@Entity
+@Table(name = "incident")
 public class Incident {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_incident")
     private int id;
-    private String description;
+
+    @Column(name = "type")
     private String type;
+
+    @Column(name = "date")
     private Data date;
+
+    @Column(name = "city")
     private String city;
 
-    private HashSet<FireBrigade> fireBrigades;
-    private HashSet<HashSet<Car>> cars;
-    private HashSet<String[]> time;
-    private HashSet<HashSet<Firefighter>> firefighters;
-    private HashSet<HashSet<Equipment>> equipments;
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "incident")
+    private List<FirebrigadeIncident> fireBrigades;
+
+    @OneToMany(mappedBy = "incident")
+    private List<CarIncident> cars;
 
     public Incident() {
         this(-1, null, null, null, null);
@@ -67,45 +81,5 @@ public class Incident {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public HashSet<FireBrigade> getFireBrigades() {
-        return fireBrigades;
-    }
-
-    public void setFireBrigades(HashSet<FireBrigade> fireBrigades) {
-        this.fireBrigades = fireBrigades;
-    }
-
-    public HashSet<HashSet<Car>> getCars() {
-        return cars;
-    }
-
-    public void setCars(HashSet<HashSet<Car>> cars) {
-        this.cars = cars;
-    }
-
-    public HashSet<HashSet<Firefighter>> getFirefighters() {
-        return firefighters;
-    }
-
-    public void setFirefighters(HashSet<HashSet<Firefighter>> firefighters) {
-        this.firefighters = firefighters;
-    }
-
-    public HashSet<HashSet<Equipment>> getEquipments() {
-        return equipments;
-    }
-
-    public void setEquipments(HashSet<HashSet<Equipment>> equipments) {
-        this.equipments = equipments;
-    }
-
-    public HashSet<String[]> getTime() {
-        return time;
-    }
-
-    public void setTime(HashSet<String[]> time) {
-        this.time = time;
     }
 }

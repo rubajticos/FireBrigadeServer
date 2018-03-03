@@ -1,9 +1,22 @@
 package com.firebrigadeserver.entity;
 
-public class Training {
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
+@Entity
+@Table(name = "training")
+public class Training implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTraining;
+
+    @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "training")
+    private List<FirefighterTraining> firefighterTrainings;
 
     public Training() {
         this(-1, null);
@@ -28,6 +41,14 @@ public class Training {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<FirefighterTraining> getFirefighterTrainings() {
+        return firefighterTrainings;
+    }
+
+    public void setFirefighterTrainings(List<FirefighterTraining> firefighterTrainings) {
+        this.firefighterTrainings = firefighterTrainings;
     }
 }
 
