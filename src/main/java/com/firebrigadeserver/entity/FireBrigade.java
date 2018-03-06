@@ -1,7 +1,6 @@
 package com.firebrigadeserver.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -100,7 +99,7 @@ public class FireBrigade implements Serializable {
     }
 
     @Column(name = "is_in_ksrg")
-    public int getKsrg() {
+    public int isKsrg() {
         return ksrg;
     }
 
