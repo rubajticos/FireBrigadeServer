@@ -2,6 +2,7 @@ package com.firebrigadeserver.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "car_incident")
@@ -20,6 +21,25 @@ public class CarIncident {
 
     @Column(name = "datetime_of_return")
     private LocalDateTime dateTimeOfReturn;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "firefighter_car_incident",
+            joinColumns = {
+                    @JoinColumn(name = "id_car", nullable = false, updatable = false),
+                    @JoinColumn(name = "id_incident", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "id_firefighter", nullable = false, updatable = false)}
+    )
+    private List<Firefighter> firefighters;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_equipment_of_car_in_incident",
+            joinColumns = {
+                    @JoinColumn(name = "id_car", nullable = false, updatable = false),
+                    @JoinColumn(name = "id_incident", nullable = false, updatable = false)
+            },
+            inverseJoinColumns = {@JoinColumn(name = "id_equipment", nullable = false, updatable = false)}
+    )
+    private List<Equipment> usedEquipments;
 
     public CarIncident() {
     }
@@ -54,5 +74,21 @@ public class CarIncident {
 
     public void setDateTimeOfReturn(LocalDateTime dateTimeOfReturn) {
         this.dateTimeOfReturn = dateTimeOfReturn;
+    }
+
+    public List<Firefighter> getFirefighters() {
+        return firefighters;
+    }
+
+    public void setFirefighters(List<Firefighter> firefighters) {
+        this.firefighters = firefighters;
+    }
+
+    public List<Equipment> getUsedEquipments() {
+        return usedEquipments;
+    }
+
+    public void setUsedEquipments(List<Equipment> usedEquipments) {
+        this.usedEquipments = usedEquipments;
     }
 }
