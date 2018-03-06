@@ -1,5 +1,7 @@
 package com.firebrigadeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -8,17 +10,44 @@ import java.util.List;
 @Table(name = "car")
 public class Car implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_car", unique = true, nullable = false)
     private int id;
+
+    @Column(name = "model")
     private String model;
+
+    @Column(name = "operational_numbers")
     private String operationalNumbers;
+
+    @Column(name = "plates")
     private String plates;
+
+    @Column(name = "type")
     private String type;
+
+    @Column(name = "water")
     private int water;
+
+    @Column(name = "foam")
     private int foam;
+
+    @Column(name = "motor_pump_performance")
     private int motorPumpPerformance;
 
+    @ManyToOne()
+    @JoinColumn(name = "id_fire_brigade")
+    @JsonIgnoreProperties("cars")
     private FireBrigade fireBrigade;
+
+    @OneToMany(mappedBy = "car")
+    @JsonIgnoreProperties("car")
     private List<CarEquipment> equipment;
+
+    @OneToMany(mappedBy = "incident")
+    @JsonIgnoreProperties("car")
+    private List<CarIncident> incidents;
 
     public Car() {
         this(-1, null, null, null, null, -1, null);
@@ -34,9 +63,7 @@ public class Car implements Serializable {
         this.fireBrigade = fireBrigade;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_car", unique = true, nullable = false)
+
     public int getId() {
         return id;
     }
@@ -45,7 +72,6 @@ public class Car implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "model")
     public String getModel() {
         return model;
     }
@@ -54,7 +80,6 @@ public class Car implements Serializable {
         this.model = model;
     }
 
-    @Column(name = "operational_numbers")
     public String getOperationalNumbers() {
         return operationalNumbers;
     }
@@ -63,7 +88,6 @@ public class Car implements Serializable {
         this.operationalNumbers = operationalNumbers;
     }
 
-    @Column(name = "plates")
     public String getPlates() {
         return plates;
     }
@@ -72,7 +96,6 @@ public class Car implements Serializable {
         this.plates = plates;
     }
 
-    @Column(name = "type")
     public String getType() {
         return type;
     }
@@ -81,7 +104,6 @@ public class Car implements Serializable {
         this.type = type;
     }
 
-    @Column(name = "water")
     public int getWater() {
         return water;
     }
@@ -90,7 +112,6 @@ public class Car implements Serializable {
         this.water = water;
     }
 
-    @Column(name = "foam")
     public int getFoam() {
         return foam;
     }
@@ -99,7 +120,6 @@ public class Car implements Serializable {
         this.foam = foam;
     }
 
-    @Column(name = "motor_pump_performance")
     public int getMotorPumpPerformance() {
         return motorPumpPerformance;
     }
@@ -108,8 +128,7 @@ public class Car implements Serializable {
         this.motorPumpPerformance = motorPumpPerformance;
     }
 
-    @ManyToOne()
-    @JoinColumn(name = "id_fire_brigade")
+
     public FireBrigade getFireBrigade() {
         return fireBrigade;
     }
@@ -118,12 +137,19 @@ public class Car implements Serializable {
         this.fireBrigade = fireBrigadeId;
     }
 
-    @OneToMany(mappedBy = "car")
     public List<CarEquipment> getEquipment() {
         return equipment;
     }
 
     public void setEquipment(List<CarEquipment> equipment) {
         this.equipment = equipment;
+    }
+
+    public List<CarIncident> getIncidents() {
+        return incidents;
+    }
+
+    public void setIncidents(List<CarIncident> incidents) {
+        this.incidents = incidents;
     }
 }

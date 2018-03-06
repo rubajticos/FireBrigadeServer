@@ -1,12 +1,15 @@
 package com.firebrigadeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
-import javax.xml.crypto.Data;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "incident")
-public class Incident {
+public class Incident implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +19,9 @@ public class Incident {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "date")
-    private Data date;
+    @Column(name = "date", columnDefinition = "DATE")
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     @Column(name = "city")
     private String city;
@@ -26,16 +30,18 @@ public class Incident {
     private String description;
 
     @OneToMany(mappedBy = "incident")
+    @JsonIgnoreProperties("incident")
     private List<FirebrigadeIncident> fireBrigades;
 
     @OneToMany(mappedBy = "incident")
+    @JsonIgnoreProperties("incident")
     private List<CarIncident> cars;
 
     public Incident() {
         this(-1, null, null, null, null);
     }
 
-    public Incident(int id, String description, String type, Data date, String city) {
+    public Incident(int id, String description, String type, Date date, String city) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -67,11 +73,11 @@ public class Incident {
         this.type = type;
     }
 
-    public Data getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Data date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

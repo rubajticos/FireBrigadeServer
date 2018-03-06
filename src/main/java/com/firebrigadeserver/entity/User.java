@@ -9,9 +9,18 @@ import java.io.Serializable;
 @Table(name = "user")
 public class User implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user", unique = true, nullable = false)
     int userId;
+
+    @Column(name = "username", nullable = false)
     String username;
+
+    @Column(name = "password", nullable = false)
     String password;
+
+    @OneToOne(mappedBy = "user")
     @JsonIgnoreProperties("user")
     FireBrigade fireBrigade;
 
@@ -20,9 +29,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user", unique = true, nullable = false)
+
     public int getUserId() {
         return userId;
     }
@@ -31,7 +38,6 @@ public class User implements Serializable {
         this.userId = id;
     }
 
-    @Column(name = "username", nullable = false)
     public String getUsername() {
         return username;
     }
@@ -40,7 +46,6 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    @Column(name = "password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -49,7 +54,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @OneToOne(mappedBy = "user")
     public FireBrigade getFireBrigade() {
         return fireBrigade;
     }

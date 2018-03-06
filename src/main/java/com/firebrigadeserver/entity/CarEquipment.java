@@ -1,27 +1,36 @@
 package com.firebrigadeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "car_equipment")
-public class CarEquipment {
+public class CarEquipment implements Serializable {
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_car")
+    @JsonIgnoreProperties("equipment")
     private Car car;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_equipment")
+    @JsonIgnoreProperties("equipment")
     private Equipment equipment;
 
     @Column(name = "qty")
     private int qty;
 
-    @Column(name = "date_of_put")
+    @Column(name = "date_of_put", columnDefinition = "DATE")
+    @Temporal(TemporalType.DATE)
     private Date dateOfPut;
 
-    @Column(name = "date_of_withdrawal")
+    @Column(name = "date_of_withdrawal", columnDefinition = "DATE")
+    @Temporal(TemporalType.DATE)
     private Date dateOfWithdrawal;
 
     public CarEquipment() {

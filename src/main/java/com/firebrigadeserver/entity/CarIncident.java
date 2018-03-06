@@ -1,26 +1,30 @@
 package com.firebrigadeserver.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "car_incident")
-public class CarIncident {
+public class CarIncident implements Serializable {
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_car")
     private Car car;
-
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_incident")
     private Incident incident;
 
-    @Column(name = "datetime_of_departure")
-    private LocalDateTime dateTimeOfDeparture;
+    @Column(name = "datetime_of_departure", columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateTimeOfDeparture;
 
-    @Column(name = "datetime_of_return")
-    private LocalDateTime dateTimeOfReturn;
+    @Column(name = "datetime_of_return", columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateTimeOfReturn;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "firefighter_car_incident",
@@ -60,19 +64,19 @@ public class CarIncident {
         this.incident = incident;
     }
 
-    public LocalDateTime getDateTimeOfDeparture() {
+    public Date getDateTimeOfDeparture() {
         return dateTimeOfDeparture;
     }
 
-    public void setDateTimeOfDeparture(LocalDateTime dateTimeOfDeparture) {
+    public void setDateTimeOfDeparture(Date dateTimeOfDeparture) {
         this.dateTimeOfDeparture = dateTimeOfDeparture;
     }
 
-    public LocalDateTime getDateTimeOfReturn() {
+    public Date getDateTimeOfReturn() {
         return dateTimeOfReturn;
     }
 
-    public void setDateTimeOfReturn(LocalDateTime dateTimeOfReturn) {
+    public void setDateTimeOfReturn(Date dateTimeOfReturn) {
         this.dateTimeOfReturn = dateTimeOfReturn;
     }
 

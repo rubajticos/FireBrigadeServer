@@ -1,22 +1,30 @@
 package com.firebrigadeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
-import java.time.format.DateTimeFormatter;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "firebrigade_incident")
-public class FirebrigadeIncident {
+public class FirebrigadeIncident implements Serializable {
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_incident")
+    @JsonIgnoreProperties("fireBrigades")
     private Incident incident;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_firebrigade")
+    @JsonIgnoreProperties("incidents")
     private FireBrigade fireBrigade;
 
-    @Column(name = "datetime_of_alarm")
-    private DateTimeFormatter dateTimeOfAlarm;
+    @Column(name = "datetime_of_alarm", columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateTimeOfAlarm;
 
     public FirebrigadeIncident() {
     }
@@ -37,11 +45,11 @@ public class FirebrigadeIncident {
         this.fireBrigade = fireBrigade;
     }
 
-    public DateTimeFormatter getDateTimeOfAlarm() {
+    public Date getDateTimeOfAlarm() {
         return dateTimeOfAlarm;
     }
 
-    public void setDateTimeOfAlarm(DateTimeFormatter dateTimeOfAlarm) {
+    public void setDateTimeOfAlarm(Date dateTimeOfAlarm) {
         this.dateTimeOfAlarm = dateTimeOfAlarm;
     }
 }
