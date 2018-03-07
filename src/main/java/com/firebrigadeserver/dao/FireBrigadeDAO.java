@@ -1,59 +1,78 @@
 package com.firebrigadeserver.dao;
 
 import com.firebrigadeserver.entity.FireBrigade;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.util.List;
 
-public class FireBrigadeDAO implements InterfaceFireBrigadeDAO {
-    final static Logger logger = Logger.getLogger(UserDAO.class);
+@Transactional
+@Repository
+public class FireBrigadeDAO implements IFireBrigadeDAO {
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("FireBrigade");
-    EntityManager manager = null;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public FireBrigadeDAO() {
-
-    }
 
     @Override
-    public FireBrigade insert(FireBrigade fireBrigade) {
+    public List<FireBrigade> getAllFireBrigades() {
         try {
-            manager = entityManagerFactory.createEntityManager();
-            return insertFireBrigade(fireBrigade);
+            String hql = "from FireBrigade as fb order by fb.idFireBrigade";
+            logger.info("Pobrano wszystkie jednostki!");
+            return (List<FireBrigade>) entityManager.createQuery(hql).getResultList();
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            return null;
+            logger.error("Blad przy pobieraniu jednostek strazy pozarnej", e.getMessage());
         }
-    }
-
-    private FireBrigade insertFireBrigade(FireBrigade fireBrigade) throws Exception {
-        FireBrigade result;
-        manager.getTransaction().begin();
-        result = manager.merge(fireBrigade);
-        manager.getTransaction().commit();
-        manager.close();
-        return result;
-    }
-
-    @Override
-    public boolean updateFireBrigade(int id, String name, String voivodeship, String district, String community, String city, int ksrg) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteFireBrigade(int id) {
-        return false;
-    }
-
-    @Override
-    public FireBrigade selectFireBrigade(int id) {
         return null;
     }
 
     @Override
-    public FireBrigade selectFireBrigade(String username, String password) {
-        return null;
+    public FireBrigade getFireBrigadeById(int fireBrigadeId) {
+        return entityManager.find(FireBrigade.class, fireBrigadeId);
+    }
+
+    @Override
+    public void addFireBrigade(FireBrigade fireBrigade) {
+        entityManager.persist(fireBrigade);
+    }
+
+    @Override
+    public void updateFireBrigade(FireBrigade fireBrigade) {
+        FireBrigade updateFireBrigade = getFireBrigadeById(fireBrigade.getIdFireBrigade());
+        updateFireBrigade.setName(fireBrigade.getName());
+        updateFireBrigade.setCars(fireBrigade.getCars());
+        updateFireBrigade.setCity(fireBrigade.getCity());
+        updateFireBrigade.setCommunity(fireBrigade.getCommunity());
+        updateFireBrigade.setDistrict(fireBrigade.getDistrict());
+        updateFireBrigade.setVoivodeship(fireBrigade.getVoivodeship());
+        updateFireBrigade.setKsrg(fireBrigade.isKsrg());
+        updateFireBrigade.setFireBrigadeEquipment(fireBrigade.getFireBrigadeEquipment());
+        updateFireBrigade.setFirefighters(fireBrigade.getFirefighters());
+        updateFireBrigade.setIncidents(fireBrigade.getIncidents());
+        updateFireBrigade.setUser(fireBrigade.getUser());
+        entityManager.flush();
+    }
+
+    @Override
+    public void deleteFireBrigade(int fireBrigadeId) {
+        entityManager.remove(getFireBrigadeById(fireBrigadeId));
+    }
+
+    @Override
+    public boolean fireBrigadeExist(String name, String city, String community, String district, String voivodeship) {
+        String hql = "from FireBrigade as fb where name = :name" +
+                "and city = :city and community = :community and district = :district and  voivodeship = :voivodeship";
+        int count = entityManager.createQuery(hql)
+                .setParameter("name", name)
+                .setParameter("city", city)
+                .setParameter("community", community)
+                .setParameter("district", district)
+                .setParameter("voivodeship", voivodeship).getResultList().size();
+        return count > 0 ? true : false;
     }
 }
