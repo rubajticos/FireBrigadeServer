@@ -1,6 +1,6 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,13 +13,12 @@ public class FirebrigadeIncident implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name = "id_incident")
-    @JsonIgnoreProperties("fireBrigades")
     private Incident incident;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "id_firebrigade")
-    @JsonIgnoreProperties("incidents")
+    @JsonBackReference
     private FireBrigade fireBrigade;
 
     @Column(name = "datetime_of_alarm", columnDefinition = "DATETIME")

@@ -1,5 +1,8 @@
 package com.firebrigadeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -12,10 +15,13 @@ public class CarIncident implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name = "id_car")
+    @JsonManagedReference
     private Car car;
+
     @Id
     @ManyToOne
     @JoinColumn(name = "id_incident")
+    @JsonBackReference
     private Incident incident;
 
     @Column(name = "datetime_of_departure", columnDefinition = "DATETIME")
@@ -33,6 +39,7 @@ public class CarIncident implements Serializable {
                     @JoinColumn(name = "id_incident", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_firefighter", nullable = false, updatable = false)}
     )
+    @JsonManagedReference
     private List<Firefighter> firefighters;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -43,7 +50,9 @@ public class CarIncident implements Serializable {
             },
             inverseJoinColumns = {@JoinColumn(name = "id_equipment", nullable = false, updatable = false)}
     )
+    @JsonManagedReference
     private List<Equipment> usedEquipments;
+
 
     public CarIncident() {
     }

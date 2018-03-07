@@ -1,6 +1,7 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,17 +37,17 @@ public class Car implements Serializable {
     @Column(name = "motor_pump_performance")
     private int motorPumpPerformance;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "id_fire_brigade")
-    @JsonIgnoreProperties("cars")
+    @JsonBackReference
     private FireBrigade fireBrigade;
 
     @OneToMany(mappedBy = "car")
-    @JsonIgnoreProperties("car")
+    @JsonManagedReference
     private List<CarEquipment> equipment;
 
     @OneToMany(mappedBy = "incident")
-    @JsonIgnoreProperties("car")
+    @JsonBackReference
     private List<CarIncident> incidents;
 
     public Car() {

@@ -1,6 +1,6 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class Training implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "training")
-    @JsonIgnoreProperties("training")
+    @JsonBackReference
     private List<FirefighterTraining> firefighterTrainings;
 
     public Training() {

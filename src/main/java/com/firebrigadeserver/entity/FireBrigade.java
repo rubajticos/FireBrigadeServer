@@ -1,6 +1,7 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,23 +37,23 @@ public class FireBrigade implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "id_user")
-    @JsonIgnoreProperties("firebrigade")
+    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "fireBrigade")
-    @JsonIgnoreProperties("fireBrigade")
+    @JsonManagedReference
     private List<Firefighter> firefighters;
 
     @OneToMany(mappedBy = "fireBrigade")
-    @JsonIgnoreProperties("fireBrigade")
+    @JsonManagedReference
     private List<Car> cars;
 
     @OneToMany(mappedBy = "fireBrigade")
-    @JsonIgnoreProperties("fireBrigade")
-    private List<Equipment> equipment;
+    @JsonManagedReference
+    private List<Equipment> fireBrigadeEquipment;
 
     @OneToMany(mappedBy = "fireBrigade")
-    @JsonIgnoreProperties("fireBrigade")
+    @JsonBackReference
     private List<FirebrigadeIncident> incidents;
 
     public FireBrigade() {
@@ -157,12 +158,12 @@ public class FireBrigade implements Serializable {
         this.cars = cars;
     }
 
-    public List<Equipment> getEquipment() {
-        return equipment;
+    public List<Equipment> getFireBrigadeEquipment() {
+        return fireBrigadeEquipment;
     }
 
-    public void setEquipment(List<Equipment> equipment) {
-        this.equipment = equipment;
+    public void setFireBrigadeEquipment(List<Equipment> fireBrigadeEquipment) {
+        this.fireBrigadeEquipment = fireBrigadeEquipment;
     }
 
     public List<FirebrigadeIncident> getIncidents() {

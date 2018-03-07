@@ -1,6 +1,6 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,7 +21,7 @@ public class User implements Serializable {
     String password;
 
     @OneToOne(mappedBy = "user")
-    @JsonIgnoreProperties("user")
+    @JsonManagedReference
     FireBrigade fireBrigade;
 
     public User() {

@@ -1,6 +1,6 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,11 +30,11 @@ public class Incident implements Serializable {
     private String description;
 
     @OneToMany(mappedBy = "incident")
-    @JsonIgnoreProperties("incident")
+    @JsonManagedReference
     private List<FirebrigadeIncident> fireBrigades;
 
     @OneToMany(mappedBy = "incident")
-    @JsonIgnoreProperties("incident")
+    @JsonManagedReference
     private List<CarIncident> cars;
 
     public Incident() {
@@ -87,5 +87,21 @@ public class Incident implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public List<FirebrigadeIncident> getFireBrigades() {
+        return fireBrigades;
+    }
+
+    public void setFireBrigades(List<FirebrigadeIncident> fireBrigades) {
+        this.fireBrigades = fireBrigades;
+    }
+
+    public List<CarIncident> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<CarIncident> cars) {
+        this.cars = cars;
     }
 }

@@ -1,6 +1,7 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,12 +31,16 @@ public class Firefighter implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_fire_brigade")
-    @JsonIgnoreProperties("firefighters")
+    @JsonBackReference
     private FireBrigade fireBrigade;
 
     @OneToMany(mappedBy = "firefighter")
-    @JsonIgnoreProperties("firefighter")
+    @JsonManagedReference
     private List<FirefighterTraining> trainings;
+
+    @ManyToMany(mappedBy = "firefighters", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<CarIncident> carsAndIncidents;
 
     public Firefighter() {
         this(-1, null, null, null, null);
@@ -109,5 +114,13 @@ public class Firefighter implements Serializable {
 
     public void setTrainings(List<FirefighterTraining> trainings) {
         this.trainings = trainings;
+    }
+
+    public List<CarIncident> getCarsAndIncidents() {
+        return carsAndIncidents;
+    }
+
+    public void setCarsAndIncidents(List<CarIncident> carsAndIncidents) {
+        this.carsAndIncidents = carsAndIncidents;
     }
 }
