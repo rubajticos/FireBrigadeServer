@@ -1,7 +1,8 @@
 package com.firebrigadeserver.dao;
 
 import com.firebrigadeserver.entity.User;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,7 +13,7 @@ import java.util.List;
 @Transactional
 @Repository
 public class UserDAO implements IUserDAO {
-    final static Logger logger = Logger.getLogger(UserDAO.class);
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -23,7 +24,7 @@ public class UserDAO implements IUserDAO {
             String hql = "from User as user order by user.userId";
             return (List<User>) entityManager.createQuery(hql).getResultList();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error("Blad przy pobieraniu uzytkownikow", e.getMessage());
         }
         return null;
     }

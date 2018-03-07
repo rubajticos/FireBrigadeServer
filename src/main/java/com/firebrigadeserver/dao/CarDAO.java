@@ -1,7 +1,8 @@
 package com.firebrigadeserver.dao;
 
 import com.firebrigadeserver.entity.Car;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,7 +13,7 @@ import java.util.List;
 @Transactional
 @Repository
 public class CarDAO implements ICarDAO {
-    final static Logger logger = Logger.getLogger(UserDAO.class);
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @PersistenceContext
     private EntityManager entityManager;
