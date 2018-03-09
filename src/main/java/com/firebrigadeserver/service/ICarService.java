@@ -1,21 +1,18 @@
-package com.firebrigadeserver.dao;
+package com.firebrigadeserver.service;
 
 import com.firebrigadeserver.entity.Car;
 
 import java.util.List;
 
-public interface ICarDAO {
+public interface ICarService {
 
     List<Car> getAllCars();
 
     Car getCarById(int carId);
 
-    void addCar(Car car);
+    boolean addCar(Car car);
 
     void updateCar(Car car);
 
     void deleteCar(int carId);
-
-    boolean carExist(String model, String plates);
-
 }

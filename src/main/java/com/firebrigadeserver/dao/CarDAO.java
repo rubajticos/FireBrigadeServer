@@ -38,6 +38,7 @@ public class CarDAO implements ICarDAO {
         return entityManager.find(Car.class, carId);
     }
 
+
     @Override
     public void addCar(Car car) {
         entityManager.persist(car);
@@ -60,5 +61,14 @@ public class CarDAO implements ICarDAO {
     @Override
     public void deleteCar(int carId) {
         entityManager.remove(getCarById(carId));
+    }
+
+    @Override
+    public boolean carExist(String model, String plates) {
+        String hql = "from car as car where model = :model and plates = :plates";
+        int count = entityManager.createQuery(hql)
+                .setParameter("model", model)
+                .setParameter("plates", plates).getResultList().size();
+        return count > 0 ? true : false;
     }
 }
