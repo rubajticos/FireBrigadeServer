@@ -28,7 +28,7 @@ public class Equipment implements Serializable {
 
     @OneToMany(mappedBy = "equipment")
     @JsonBackReference
-    private List<CarEquipment> equipment;
+    private List<CarEquipment> equipmentOnTheCar;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "usedEquipments")
     @JsonBackReference
@@ -81,12 +81,12 @@ public class Equipment implements Serializable {
         this.fireBrigade = fireBrigade;
     }
 
-    public List<CarEquipment> getEquipment() {
-        return equipment;
+    public List<CarEquipment> getEquipmentOnTheCar() {
+        return equipmentOnTheCar;
     }
 
-    public void setEquipment(List<CarEquipment> equipment) {
-        this.equipment = equipment;
+    public void setEquipmentOnTheCar(List<CarEquipment> equipmentOnTheCar) {
+        this.equipmentOnTheCar = equipmentOnTheCar;
     }
 
     public List<CarIncident> getCarIncidents() {
