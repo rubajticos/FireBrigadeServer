@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 @Repository
 public class CarDAO implements ICarDAO {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(CarDAO.class);
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -26,6 +26,7 @@ public class CarDAO implements ICarDAO {
     public List<Car> getAllCars() {
         try {
             String hql = "from Car as car order by car.id";
+            logger.debug("Getting all cars now!");
             return (List<Car>) entityManager.createQuery(hql).getResultList();
         } catch (Exception e) {
             System.out.println(e.getMessage());

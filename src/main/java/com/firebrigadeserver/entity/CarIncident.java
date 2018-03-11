@@ -43,7 +43,7 @@ public class CarIncident implements Serializable {
     private List<Firefighter> firefighters;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_equipment_of_car_in_incident",
+    @JoinTable(name = "used_equipment_of_car_in_incident",
             joinColumns = {
                     @JoinColumn(name = "id_car", nullable = false, updatable = false),
                     @JoinColumn(name = "id_incident", nullable = false, updatable = false)

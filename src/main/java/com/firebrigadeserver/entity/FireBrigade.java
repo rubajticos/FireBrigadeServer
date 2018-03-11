@@ -37,7 +37,7 @@ public class FireBrigade implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "id_user")
-    @JsonBackReference
+    @JsonManagedReference
     private User user;
 
     @OneToMany(mappedBy = "fireBrigade")
