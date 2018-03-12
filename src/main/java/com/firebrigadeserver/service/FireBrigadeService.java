@@ -2,6 +2,7 @@ package com.firebrigadeserver.service;
 
 import com.firebrigadeserver.dao.IFireBrigadeDAO;
 import com.firebrigadeserver.entity.FireBrigade;
+import com.firebrigadeserver.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,11 @@ public class FireBrigadeService implements IFireBrigadeService {
     public FireBrigade getFireBrigadeById(int fireBrigadeId) {
         FireBrigade fireBrigade = fireBrigadeDAO.getFireBrigadeById(fireBrigadeId);
         return fireBrigade;
+    }
+
+    @Override
+    public FireBrigade getFireBrigadeByUser(User user) {
+        return fireBrigadeDAO.getFireBrigadeByUser(user);
     }
 
     @Override

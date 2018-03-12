@@ -1,6 +1,7 @@
 package com.firebrigadeserver.dao;
 
 import com.firebrigadeserver.entity.FireBrigade;
+import com.firebrigadeserver.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,11 @@ public class FireBrigadeDAO implements IFireBrigadeDAO {
     @Override
     public FireBrigade getFireBrigadeById(int fireBrigadeId) {
         return entityManager.find(FireBrigade.class, fireBrigadeId);
+    }
+
+    public FireBrigade getFireBrigadeByUser(User user) {
+        String hql = "from FireBrigade as fb where fb.user = :user";
+        return (FireBrigade) entityManager.createQuery(hql).setParameter("user", user).getSingleResult();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.firebrigadeserver.controller;
 
 import com.firebrigadeserver.entity.FireBrigade;
+import com.firebrigadeserver.entity.User;
 import com.firebrigadeserver.service.IFireBrigadeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("firebrigade")
 public class FireBrigadeController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -31,7 +31,18 @@ public class FireBrigadeController {
         return new ResponseEntity<List<FireBrigade>>(list, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @GetMapping("firebrigade/user/{id}/{username}/{password}")
+    public ResponseEntity<FireBrigade> getFireBrigadeByUser(@PathVariable("id") Integer id, @PathVariable("username") String username, @PathVariable("password") String password) {
+        User user = new User();
+        user.setUserId(id);
+        user.setUsername(username);
+        user.setPassword(password);
+        FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeByUser(user);
+        return new ResponseEntity<FireBrigade>(fireBrigade, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "firebrigade", method = RequestMethod.POST)
     public ResponseEntity<Void> addFireBrigade(@RequestBody FireBrigade fireBrigade) {
         try {
             fireBrigadeService.addFireBrigade(fireBrigade);
@@ -47,7 +58,7 @@ public class FireBrigadeController {
         return new ResponseEntity<FireBrigade>(fireBrigade, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "del/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "firebrigade/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteFireBrigade(@PathVariable("id") Integer id) {
         fireBrigadeService.deleteFireBrigade(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
