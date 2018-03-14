@@ -1,9 +1,11 @@
 package com.firebrigadeserver.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -19,6 +21,15 @@ public class User implements Serializable {
 
     @Column(name = "password", nullable = false)
     String password;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = {@JoinColumn(name = "id_user")},
+            inverseJoinColumns = {@JoinColumn(name = "id_role")}
+    )
+    @JsonManagedReference
+    List<Role> roles;
 
     @OneToOne(mappedBy = "user")
     @JsonBackReference
@@ -38,12 +49,12 @@ public class User implements Serializable {
         this.userId = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -60,6 +71,14 @@ public class User implements Serializable {
 
     public void setFireBrigade(FireBrigade fireBrigade) {
         this.fireBrigade = fireBrigade;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public void printUser() {
