@@ -2,15 +2,19 @@ package com.firebrigadeserver.dto;
 
 public class UserDTO {
 
+    private Integer id;
     private String username;
     private String password;
 
     public UserDTO() {
     }
 
-    public UserDTO(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
