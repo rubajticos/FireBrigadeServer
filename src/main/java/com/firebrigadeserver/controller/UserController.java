@@ -1,9 +1,9 @@
 package com.firebrigadeserver.controller;
 
 import com.firebrigadeserver.dto.UserDTO;
+import com.firebrigadeserver.dto.mapper.UserMapper;
 import com.firebrigadeserver.entity.User;
 import com.firebrigadeserver.service.IUserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,25 +18,25 @@ public class UserController {
     private IUserService userService;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private UserMapper userMapper;
 
     @GetMapping("user/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Integer id) {
         User user = userService.getUserById(id);
-
-        return new ResponseEntity<UserDTO>(convertToDto(user), HttpStatus.OK);
+        return new ResponseEntity<UserDTO>(userMapper.entityToDto(user), HttpStatus.OK);
     }
 
     @GetMapping("users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> list = userService.getAllUsers();
-        return new ResponseEntity<List<User>>(list, HttpStatus.OK);
+        List<UserDTO> dtoList = userMapper.entityListToDtoList(list);
+        return new ResponseEntity<List<UserDTO>>(dtoList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public ResponseEntity<Void> addUser(@RequestBody UserDTO userDto) {
         try {
-            User user = convertToEntity(userDto);
+            User user = userMapper.dtoToEntity(userDto);
             userService.addUser(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -54,19 +54,5 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
         userService.deleteUser(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-    }
-
-    private UserDTO convertToDto(User user) {
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        userDTO.setUsername(user.getUsername());
-        userDTO.setPassword(user.getPassword());
-        return userDTO;
-    }
-
-    private User convertToEntity(UserDTO userDTO) {
-        User user = modelMapper.map(userDTO, User.class);
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
-        return user;
     }
 }
