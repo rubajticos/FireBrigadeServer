@@ -1,5 +1,7 @@
 package com.firebrigadeserver.controller;
 
+import com.firebrigadeserver.dto.FireBrigadeDTO;
+import com.firebrigadeserver.dto.mapper.FireBrigadeMapper;
 import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.User;
 import com.firebrigadeserver.service.IFireBrigadeService;
@@ -19,10 +21,13 @@ public class FireBrigadeController {
     @Autowired
     private IFireBrigadeService fireBrigadeService;
 
+    @Autowired
+    private FireBrigadeMapper fireBrigadeMapper;
+
     @GetMapping("firebrigade/{id}")
-    public ResponseEntity<FireBrigade> getFireBrigadeById(@PathVariable("id") Integer id) {
+    public ResponseEntity<FireBrigadeDTO> getFireBrigadeById(@PathVariable("id") Integer id) {
         FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeById(id);
-        return new ResponseEntity<FireBrigade>(fireBrigade, HttpStatus.OK);
+        return new ResponseEntity<FireBrigadeDTO>(fireBrigadeMapper.entityToDto(fireBrigade), HttpStatus.OK);
     }
 
     @GetMapping("firebrigades")
