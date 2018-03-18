@@ -1,5 +1,7 @@
 package com.firebrigadeserver.controller;
 
+import com.firebrigadeserver.dto.UserDTO;
+import com.firebrigadeserver.dto.mapper.UserMapper;
 import com.firebrigadeserver.entity.User;
 import com.firebrigadeserver.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,13 @@ public class RegisterController {
     @Autowired
     private IUserService userService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> addUser(@RequestBody User user) {
+    @Autowired
+    private UserMapper userMapper;
+
+    @RequestMapping(value = "register", method = RequestMethod.POST)
+    public ResponseEntity<Void> register(@RequestBody UserDTO userDto) {
         try {
+            User user = userMapper.dtoToEntity(userDto);
             userService.addUser(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
