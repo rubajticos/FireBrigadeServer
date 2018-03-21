@@ -2,6 +2,9 @@ package com.firebrigadeserver.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +13,11 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,7 +70,8 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+
+        this.password = getPasswordEncoder().encode(password);
     }
 
     public FireBrigade getFireBrigade() {
