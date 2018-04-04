@@ -2,6 +2,7 @@ package com.firebrigadeserver.service;
 
 import com.firebrigadeserver.dao.IUserDAO;
 import com.firebrigadeserver.entity.User;
+import com.firebrigadeserver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,34 +14,42 @@ public class UserService implements IUserService {
     @Autowired
     private IUserDAO userDAO;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
+        return userRepository.findAll();
     }
 
     @Override
     public User getUserById(int userId) {
-        User user = userDAO.getUserById(userId);
-        return user;
+        return userRepository.findByUserId(userId);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
     public boolean addUser(User user) {
-        if (userDAO.userExist(user.getUsername(), user.getPassword())) {
+
+        if (userRepository.existsByUsername(user.getUsername())) {
             return false;
         } else {
-            userDAO.addUser(user);
+            userRepository.save(user);
             return true;
         }
     }
 
     @Override
     public void updateUser(User user) {
-        userDAO.updateUser(user);
+        userRepository.save(user);
     }
 
     @Override
     public void deleteUser(int userId) {
-        userDAO.deleteUser(userId);
+        userRepository.delete(userId);
     }
 }
