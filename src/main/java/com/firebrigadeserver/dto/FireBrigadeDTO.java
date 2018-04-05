@@ -1,7 +1,5 @@
 package com.firebrigadeserver.dto;
 
-import java.util.List;
-
 public class FireBrigadeDTO {
 
     private int idFireBrigade;
@@ -11,11 +9,6 @@ public class FireBrigadeDTO {
     private String community;
     private String city;
     private boolean ksrg;
-    private Integer user;
-    private List<Integer> firefightersIds;
-    private List<Integer> carsIds;
-    private List<Integer> equipmentIds;
-    private List<FireBrigadeIncidentDTO> incidents;
 
     public int getIdFireBrigade() {
         return idFireBrigade;
@@ -71,45 +64,5 @@ public class FireBrigadeDTO {
 
     public void setKsrg(boolean ksrg) {
         this.ksrg = ksrg;
-    }
-
-    public Integer getUser() {
-        return user;
-    }
-
-    public void setUser(Integer user) {
-        this.user = user;
-    }
-
-    public List<Integer> getFirefightersIds() {
-        return firefightersIds;
-    }
-
-    public void setFirefightersIds(List<Integer> firefightersIds) {
-        this.firefightersIds = firefightersIds;
-    }
-
-    public List<Integer> getCarsIds() {
-        return carsIds;
-    }
-
-    public void setCarsIds(List<Integer> carsIds) {
-        this.carsIds = carsIds;
-    }
-
-    public List<Integer> getEquipmentIds() {
-        return equipmentIds;
-    }
-
-    public void setEquipmentIds(List<Integer> equipmentIds) {
-        this.equipmentIds = equipmentIds;
-    }
-
-    public List<FireBrigadeIncidentDTO> getIncidents() {
-        return incidents;
-    }
-
-    public void setIncidents(List<FireBrigadeIncidentDTO> incidents) {
-        this.incidents = incidents;
     }
 }

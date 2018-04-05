@@ -2,9 +2,11 @@ package com.firebrigadeserver.controller;
 
 import com.firebrigadeserver.dto.FireBrigadeDTO;
 import com.firebrigadeserver.dto.mapper.FireBrigadeMapper;
+import com.firebrigadeserver.dto.mapper.UserMapper;
 import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.User;
 import com.firebrigadeserver.service.IFireBrigadeService;
+import com.firebrigadeserver.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,50 +24,90 @@ public class FireBrigadeController {
     private IFireBrigadeService fireBrigadeService;
 
     @Autowired
+    private IUserService userService;
+
+    @Autowired
     private FireBrigadeMapper fireBrigadeMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("firebrigade/{id}")
-    public ResponseEntity<FireBrigadeDTO> getFireBrigadeById(@PathVariable("id") Integer id) {
+    public ResponseEntity getFireBrigadeById(@PathVariable("id") Integer id) {
         FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeById(id);
-        return new ResponseEntity<FireBrigadeDTO>(fireBrigadeMapper.entityToDto(fireBrigade), HttpStatus.OK);
+        FireBrigadeDTO fireBrigadeDTO = fireBrigadeMapper.entityToDto(fireBrigade);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(fireBrigadeDTO);
     }
 
     @GetMapping("firebrigades")
-    public ResponseEntity<List<FireBrigade>> getAllFireBrigades() {
+    public ResponseEntity getAllFireBrigades() {
         List<FireBrigade> list = fireBrigadeService.getAllFireBrigades();
-        return new ResponseEntity<List<FireBrigade>>(list, HttpStatus.OK);
+        List<FireBrigadeDTO> dtosList = fireBrigadeMapper.entityListToDtoList(list);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dtosList);
     }
 
-    @GetMapping("firebrigade/user/{id}/{username}/{password}")
-    public ResponseEntity<FireBrigade> getFireBrigadeByUser(@PathVariable("id") Integer id, @PathVariable("username") String username, @PathVariable("password") String password) {
-        User user = new User();
-        user.setUserId(id);
-        user.setUsername(username);
-        user.setPassword(password);
+    @GetMapping("firebrigade/user/{username}")
+    public ResponseEntity getFireBrigadeByUser(@PathVariable("username") String username) {
+        User user = userService.getUserByUsername(username);
         FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeByUser(user);
-        return new ResponseEntity<FireBrigade>(fireBrigade, HttpStatus.OK);
+        FireBrigadeDTO fireBrigadeDTO = fireBrigadeMapper.entityToDto(fireBrigade);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(fireBrigadeDTO);
     }
 
 
-    @RequestMapping(value = "firebrigade", method = RequestMethod.POST)
-    public ResponseEntity<Void> addFireBrigade(@RequestBody FireBrigade fireBrigade) {
+    @RequestMapping(value = "firebrigade/user/{username}", method = RequestMethod.POST)
+    public ResponseEntity addFireBrigade(@RequestBody FireBrigadeDTO fireBrigadeDTO, @PathVariable String username) {
+        FireBrigadeDTO returnFirebrigadeDTO = null;
         try {
-            fireBrigadeService.addFireBrigade(fireBrigade);
+            System.out.println("USERNAME: " + username);
+            User user = userService.getUserByUsername(username);
+            System.out.println("USER: ");
+            user.printUser();
+            FireBrigade fireBrigade = fireBrigadeMapper.dtoToEntity(fireBrigadeDTO);
+            fireBrigade.setUser(user);
+            System.out.println(fireBrigade.toString());
+            if (fireBrigadeService.addFireBrigade(fireBrigade)) {
+                fireBrigade = fireBrigadeService.getFireBrigadeByUser(user);
+                logger.debug(fireBrigade.toString());
+                returnFirebrigadeDTO = fireBrigadeMapper.entityToDto(fireBrigade);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(returnFirebrigadeDTO);
+            } else {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(returnFirebrigadeDTO);
+            }
+
         } catch (Exception e) {
-            logger.error("Blad przy dodawaniu jednostki strazy pozarnej", e.getMessage());
+            logger.error("Blad przy dodawaniu jednostki strazy pozarnej: " + e.getMessage());
         }
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(null);
     }
 
     @PutMapping("firebrigade")
-    public ResponseEntity<FireBrigade> updateFireBrigade(@RequestBody FireBrigade fireBrigade) {
+    public ResponseEntity updateFireBrigade(@RequestBody FireBrigadeDTO fireBrigadeDto) {
+        FireBrigade fireBrigade = fireBrigadeMapper.dtoToEntity(fireBrigadeDto);
         fireBrigadeService.updateFireBrigade(fireBrigade);
-        return new ResponseEntity<FireBrigade>(fireBrigade, HttpStatus.OK);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Update success");
     }
 
     @RequestMapping(value = "firebrigade/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteFireBrigade(@PathVariable("id") Integer id) {
+    public ResponseEntity deleteFireBrigade(@PathVariable("id") Integer id) {
         fireBrigadeService.deleteFireBrigade(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body(null);
     }
+
 }

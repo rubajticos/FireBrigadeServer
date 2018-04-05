@@ -1,6 +1,5 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,7 +39,6 @@ public class User implements Serializable {
     List<Role> roles;
 
     @OneToOne(mappedBy = "user")
-    @JsonBackReference
     FireBrigade fireBrigade;
 
     public User() {
@@ -88,6 +86,16 @@ public class User implements Serializable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\n' +
+                ", password='" + password + '\n' +
+                ", roles=" + roles +
+                '}';
     }
 
     public void printUser() {

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "fire_brigade")
-public class FireBrigade implements Serializable {
+public class FireBrigade implements Serializable, IFireBrigade {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -37,7 +37,6 @@ public class FireBrigade implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "id_user")
-    @JsonManagedReference
     private User user;
 
     @OneToMany(mappedBy = "fireBrigade")
@@ -172,5 +171,23 @@ public class FireBrigade implements Serializable {
 
     public void setIncidents(List<FirebrigadeIncident> incidents) {
         this.incidents = incidents;
+    }
+
+    @Override
+    public String toString() {
+        return "FireBrigade{" +
+                "idFireBrigade=" + idFireBrigade +
+                ", name='" + name + '\n' +
+                ", voivodeship='" + voivodeship + '\n' +
+                ", district='" + district + '\n' +
+                ", community='" + community + '\n' +
+                ", city='" + city + '\n' +
+                ", ksrg=" + ksrg + '\n' +
+                ", user=" + user.toString() +
+                ", firefighters=" + firefighters + '\n' +
+                ", cars=" + cars + '\n' +
+                ", fireBrigadeEquipment=" + fireBrigadeEquipment + '\n' +
+                ", incidents=" + incidents + '\n' +
+                '}';
     }
 }

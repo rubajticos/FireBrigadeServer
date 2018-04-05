@@ -71,7 +71,7 @@ public class FireBrigadeDAO implements IFireBrigadeDAO {
 
     @Override
     public boolean fireBrigadeExist(String name, String city, String community, String district, String voivodeship) {
-        String hql = "from FireBrigade as fb where name = :name" +
+        String hql = "from FireBrigade as fb where name = :name " +
                 "and city = :city and community = :community and district = :district and  voivodeship = :voivodeship";
         int count = entityManager.createQuery(hql)
                 .setParameter("name", name)

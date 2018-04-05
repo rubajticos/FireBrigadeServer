@@ -32,7 +32,7 @@ public class RegisterController {
         try {
             User user = userMapper.dtoToEntity(userDto);
             if (userService.addUser(user)) {
-                user = userRepository.findByUsername(user.getUsername());
+                user = userService.getUserByUsername(user.getUsername());
                 returnUserDTO = userMapper.entityToDto(user);
                 return ResponseEntity
                         .status(HttpStatus.OK)
