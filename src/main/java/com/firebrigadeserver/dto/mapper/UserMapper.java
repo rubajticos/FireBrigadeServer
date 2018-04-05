@@ -16,8 +16,6 @@ public class UserMapper implements Mapper<User, UserDTO> {
     @Override
     public User dtoToEntity(UserDTO dto) {
         User user = modelMapper.map(dto, User.class);
-        user.setRoles(null);
-        user.setFireBrigade(null);
         return user;
     }
 
