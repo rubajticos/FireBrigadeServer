@@ -9,13 +9,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "fire_brigade")
-public class FireBrigade implements Serializable, IFireBrigade {
+public class FireBrigade implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_fire_brigade", unique = true, nullable = false)
-    private int idFireBrigade;
+    private Integer idFireBrigade;
 
     @Column(name = "name")
     private String name;
@@ -74,11 +74,11 @@ public class FireBrigade implements Serializable, IFireBrigade {
     }
 
 
-    public int getIdFireBrigade() {
+    public Integer getIdFireBrigade() {
         return idFireBrigade;
     }
 
-    public void setIdFireBrigade(int idFireBrigade) {
+    public void setIdFireBrigade(Integer idFireBrigade) {
         this.idFireBrigade = idFireBrigade;
     }
 

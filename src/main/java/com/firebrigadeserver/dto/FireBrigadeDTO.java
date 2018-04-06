@@ -2,7 +2,7 @@ package com.firebrigadeserver.dto;
 
 public class FireBrigadeDTO {
 
-    private int idFireBrigade;
+    private Integer idFireBrigade;
     private String name;
     private String voivodeship;
     private String district;
@@ -10,11 +10,11 @@ public class FireBrigadeDTO {
     private String city;
     private boolean ksrg;
 
-    public int getIdFireBrigade() {
+    public Integer getIdFireBrigade() {
         return idFireBrigade;
     }
 
-    public void setIdFireBrigade(int idFireBrigade) {
+    public void setIdFireBrigade(Integer idFireBrigade) {
         this.idFireBrigade = idFireBrigade;
     }
 

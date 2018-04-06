@@ -65,10 +65,7 @@ public class FireBrigadeController {
     public ResponseEntity addFireBrigade(@RequestBody FireBrigadeDTO fireBrigadeDTO, @PathVariable String username) {
         FireBrigadeDTO returnFirebrigadeDTO = null;
         try {
-            System.out.println("USERNAME: " + username);
             User user = userService.getUserByUsername(username);
-            System.out.println("USER: ");
-            user.printUser();
             FireBrigade fireBrigade = fireBrigadeMapper.dtoToEntity(fireBrigadeDTO);
             fireBrigade.setUser(user);
             System.out.println(fireBrigade.toString());
