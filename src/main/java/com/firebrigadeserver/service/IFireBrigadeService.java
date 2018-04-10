@@ -15,7 +15,7 @@ public interface IFireBrigadeService {
 
     boolean addFireBrigade(FireBrigade fireBrigade);
 
-    void updateFireBrigade(FireBrigade fireBrigade);
+    FireBrigade updateFireBrigade(FireBrigade fireBrigade);
 
     void deleteFireBrigade(int fireBrigadeId);
 }

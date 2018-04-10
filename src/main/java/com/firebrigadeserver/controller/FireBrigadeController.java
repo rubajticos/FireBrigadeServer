@@ -93,10 +93,11 @@ public class FireBrigadeController {
     @PutMapping("firebrigade")
     public ResponseEntity updateFireBrigade(@RequestBody FireBrigadeDTO fireBrigadeDto) {
         FireBrigade fireBrigade = fireBrigadeMapper.dtoToEntity(fireBrigadeDto);
-        fireBrigadeService.updateFireBrigade(fireBrigade);
+        fireBrigade = fireBrigadeService.updateFireBrigade(fireBrigade);
+        FireBrigadeDTO returnFireBrigade = fireBrigadeMapper.entityToDto(fireBrigade);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Update success");
+                .body(returnFireBrigade);
     }
 
     @RequestMapping(value = "firebrigade/{id}", method = RequestMethod.DELETE)

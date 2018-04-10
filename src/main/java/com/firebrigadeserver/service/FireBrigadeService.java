@@ -46,7 +46,7 @@ public class FireBrigadeService implements IFireBrigadeService {
     }
 
     @Override
-    public void updateFireBrigade(FireBrigade fireBrigade) {
+    public FireBrigade updateFireBrigade(FireBrigade fireBrigade) {
         FireBrigade updateFireBrigade = repository.findByIdFireBrigade(fireBrigade.getIdFireBrigade());
         updateFireBrigade.setName(fireBrigade.getName());
         updateFireBrigade.setCity(fireBrigade.getCity());
@@ -54,7 +54,7 @@ public class FireBrigadeService implements IFireBrigadeService {
         updateFireBrigade.setDistrict(fireBrigade.getDistrict());
         updateFireBrigade.setVoivodeship(fireBrigade.getVoivodeship());
         updateFireBrigade.setKsrg(fireBrigade.isKsrg());
-        repository.save(updateFireBrigade);
+        return repository.save(updateFireBrigade);
     }
 
     @Override
