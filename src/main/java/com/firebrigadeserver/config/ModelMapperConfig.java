@@ -1,8 +1,6 @@
 package com.firebrigadeserver.config;
 
-import com.firebrigadeserver.dto.mapper.FireBrigadeIncidentMapper;
-import com.firebrigadeserver.dto.mapper.FireBrigadeMapper;
-import com.firebrigadeserver.dto.mapper.UserMapper;
+import com.firebrigadeserver.dto.mapper.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,5 +26,20 @@ public class ModelMapperConfig {
     @Bean
     public FireBrigadeIncidentMapper fireBrigadeIncidentMapper() {
         return new FireBrigadeIncidentMapper();
+    }
+
+    @Bean
+    public FirefighterMapper firefighterMapper() {
+        return new FirefighterMapper();
+    }
+
+    @Bean
+    public TrainingMapper trainingMapper() {
+        return new TrainingMapper();
+    }
+
+    @Bean
+    FirefighterTrainingMapper firefighterTrainingMapper() {
+        return new FirefighterTrainingMapper();
     }
 }

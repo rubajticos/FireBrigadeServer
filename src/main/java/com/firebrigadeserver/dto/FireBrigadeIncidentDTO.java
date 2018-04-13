@@ -5,6 +5,7 @@ public class FireBrigadeIncidentDTO {
 
     private int indcidentId;
     private int firebrigadeId;
+
     private String date;
 
     public int getIndcidentId() {

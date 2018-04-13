@@ -1,5 +1,7 @@
 package com.firebrigadeserver.controller;
 
+import com.firebrigadeserver.dto.FirefighterDTO;
+import com.firebrigadeserver.dto.mapper.FirefighterMapper;
 import com.firebrigadeserver.entity.Firefighter;
 import com.firebrigadeserver.service.IFirefighterService;
 import org.slf4j.Logger;
@@ -12,26 +14,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("firefighter")
 public class FirefighterController {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private IFirefighterService firefighterService;
 
+    @Autowired
+    private FirefighterMapper firefighterMapper;
+
     @GetMapping("firefighter/{id}")
-    public ResponseEntity<Firefighter> getFirefighterByid(@PathVariable Integer id) {
+    public ResponseEntity getFirefighterByid(@PathVariable Integer id) {
         Firefighter firefighter = firefighterService.getFireFighterById(id);
-        return new ResponseEntity<Firefighter>(firefighter, HttpStatus.OK);
+        FirefighterDTO firefighterDTO = firefighterMapper.entityToDto(firefighter);
+        logger.debug("ppp " + firefighterDTO.toString());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(firefighterDTO);
     }
 
     @GetMapping("firefighters")
-    public ResponseEntity<List<Firefighter>> getAllFirefighters() {
+    public ResponseEntity getAllFirefighters() {
         List<Firefighter> list = firefighterService.getAllFirefighters();
-        return new ResponseEntity<List<Firefighter>>(list, HttpStatus.OK);
+        List<FirefighterDTO> dtosList = firefighterMapper.entityListToDtoList(list);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dtosList);
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(value = "firefighter", method = RequestMethod.POST)
     public ResponseEntity<Void> addFirefighter(@RequestBody Firefighter firefighter) {
         try {
             firefighterService.addFirefighter(firefighter);
@@ -47,7 +58,7 @@ public class FirefighterController {
         return new ResponseEntity<Firefighter>(firefighter, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "del/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "firefighter/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteFirefighter(@PathVariable Integer id) {
         firefighterService.deleteFirefighter(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

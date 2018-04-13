@@ -1,7 +1,7 @@
 package com.firebrigadeserver.service;
 
-import com.firebrigadeserver.dao.IFirefighterDAO;
 import com.firebrigadeserver.entity.Firefighter;
+import com.firebrigadeserver.repositories.FirefighterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,35 +11,45 @@ import java.util.List;
 public class FirefighterService implements IFirefighterService {
 
     @Autowired
-    private IFirefighterDAO firefighterDAO;
+    private FirefighterRepository repository;
 
     @Override
     public List<Firefighter> getAllFirefighters() {
-        return firefighterDAO.getAllFirefighters();
+        return repository.findAll();
     }
 
     @Override
     public Firefighter getFireFighterById(int firefighterId) {
-        return firefighterDAO.getFirerighterById(firefighterId);
+        return repository.findByIdFirefighter(firefighterId);
     }
 
     @Override
     public boolean addFirefighter(Firefighter firefighter) {
-        if (firefighterDAO.firefighterExist(firefighter.getName(), firefighter.getLastName(), firefighter.getBirthday())) {
-            return false;
-        } else {
-            firefighterDAO.addFirefighter(firefighter);
-            return true;
+        try {
+            if (repository.existsByNameAndLastNameAndBirthday(firefighter.getName(), firefighter.getLastName(), firefighter.getBirthday())) {
+                return false;
+            } else {
+                repository.save(firefighter);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+        return false;
     }
 
     @Override
-    public void updateFirefighter(Firefighter firefighter) {
-        firefighterDAO.updateFirefighter(firefighter);
+    public Firefighter updateFirefighter(Firefighter firefighter) {
+        Firefighter updateFirefighter = repository.findByIdFirefighter(firefighter.getIdFirefighter());
+        updateFirefighter.setName(firefighter.getName());
+        updateFirefighter.setLastName(firefighter.getLastName());
+        updateFirefighter.setBirthday(firefighter.getBirthday());
+        updateFirefighter.setExpiryMedicalTest(firefighter.getExpiryMedicalTest());
+        updateFirefighter.setFireBrigade(firefighter.getFireBrigade());
+        return repository.save(updateFirefighter);
     }
 
     @Override
     public void deleteFirefighter(int firefighterId) {
-        firefighterDAO.deleterFirefighter(firefighterId);
+        repository.delete(firefighterId);
     }
 }

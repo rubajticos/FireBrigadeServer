@@ -12,7 +12,7 @@ public interface IFirefighterService {
 
     boolean addFirefighter(Firefighter firefighter);
 
-    void updateFirefighter(Firefighter firefighter);
+    Firefighter updateFirefighter(Firefighter firefighter);
 
     void deleteFirefighter(int firefighterId);
 }

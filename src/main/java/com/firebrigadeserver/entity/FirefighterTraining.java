@@ -12,12 +12,15 @@ import java.util.Date;
 public class FirefighterTraining implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_firefighter_training", unique = true, nullable = false)
+    private int idFirefighterTraining;
+
     @ManyToOne
     @JoinColumn(name = "id_firefighter")
     @JsonBackReference
     private Firefighter firefighter;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_training")
     @JsonManagedReference
