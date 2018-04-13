@@ -33,7 +33,7 @@ public class UserController {
         return new ResponseEntity<List<UserDTO>>(dtoList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(value = "user", method = RequestMethod.POST)
     public ResponseEntity<Void> addUser(@RequestBody UserDTO userDto) {
         try {
             User user = userMapper.dtoToEntity(userDto);
@@ -50,7 +50,7 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "del/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
         userService.deleteUser(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
