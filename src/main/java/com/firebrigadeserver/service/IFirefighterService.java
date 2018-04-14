@@ -1,5 +1,6 @@
 package com.firebrigadeserver.service;
 
+import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.Firefighter;
 
 import java.util.List;
@@ -10,7 +11,9 @@ public interface IFirefighterService {
 
     Firefighter getFireFighterById(int firefighterId);
 
-    boolean addFirefighter(Firefighter firefighter);
+    Firefighter getFireFighterByFirebrigadeAndNameAndLastName(FireBrigade firebrigade, String name, String lastname);
+
+    Firefighter addFirefighter(Firefighter firefighter);
 
     Firefighter updateFirefighter(Firefighter firefighter);
 

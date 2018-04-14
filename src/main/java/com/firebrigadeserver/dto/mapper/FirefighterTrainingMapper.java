@@ -1,7 +1,9 @@
 package com.firebrigadeserver.dto.mapper;
 
 import com.firebrigadeserver.dto.FirefighterTrainingDTO;
+import com.firebrigadeserver.entity.Firefighter;
 import com.firebrigadeserver.entity.FirefighterTraining;
+import com.firebrigadeserver.service.FirefighterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,9 +18,17 @@ public class FirefighterTrainingMapper implements Mapper<FirefighterTraining, Fi
     @Autowired
     private TrainingMapper trainingMapper;
 
+    @Autowired
+    FirefighterMapper firefighterMapper;
+
+    @Autowired
+    FirefighterService firefighterService;
+
     @Override
     public FirefighterTraining dtoToEntity(FirefighterTrainingDTO dto) {
         FirefighterTraining ft = modelMapper.map(dto, FirefighterTraining.class);
+        Firefighter ff = firefighterService.getFireFighterById(dto.getFirefighter());
+        ft.setFirefighter(ff);
         ft.setTraining(trainingMapper.dtoToEntity(dto.getTraining()));
         return ft;
     }

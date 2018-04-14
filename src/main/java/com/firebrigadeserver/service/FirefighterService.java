@@ -1,5 +1,6 @@
 package com.firebrigadeserver.service;
 
+import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.Firefighter;
 import com.firebrigadeserver.repositories.FirefighterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,22 @@ public class FirefighterService implements IFirefighterService {
     }
 
     @Override
-    public boolean addFirefighter(Firefighter firefighter) {
+    public Firefighter getFireFighterByFirebrigadeAndNameAndLastName(FireBrigade firebrigade, String name, String lastname) {
+        return repository.findByFireBrigadeAndNameAndLastName(firebrigade, name, lastname);
+    }
+
+    @Override
+    public Firefighter addFirefighter(Firefighter firefighter) {
         try {
             if (repository.existsByNameAndLastNameAndBirthday(firefighter.getName(), firefighter.getLastName(), firefighter.getBirthday())) {
-                return false;
+                return null;
             } else {
-                repository.save(firefighter);
+                return repository.save(firefighter);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -45,6 +51,7 @@ public class FirefighterService implements IFirefighterService {
         updateFirefighter.setBirthday(firefighter.getBirthday());
         updateFirefighter.setExpiryMedicalTest(firefighter.getExpiryMedicalTest());
         updateFirefighter.setFireBrigade(firefighter.getFireBrigade());
+        updateFirefighter.setTrainings(firefighter.getTrainings());
         return repository.save(updateFirefighter);
     }
 

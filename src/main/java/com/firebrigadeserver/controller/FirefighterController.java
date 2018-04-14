@@ -1,8 +1,11 @@
 package com.firebrigadeserver.controller;
 
 import com.firebrigadeserver.dto.FirefighterDTO;
+import com.firebrigadeserver.dto.mapper.FireBrigadeMapper;
 import com.firebrigadeserver.dto.mapper.FirefighterMapper;
+import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.Firefighter;
+import com.firebrigadeserver.service.IFireBrigadeService;
 import com.firebrigadeserver.service.IFirefighterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +24,13 @@ public class FirefighterController {
     private IFirefighterService firefighterService;
 
     @Autowired
+    private IFireBrigadeService fireBrigadeService;
+
+    @Autowired
     private FirefighterMapper firefighterMapper;
+
+    @Autowired
+    private FireBrigadeMapper fireBrigadeMapper;
 
     @GetMapping("firefighter/{id}")
     public ResponseEntity getFirefighterByid(@PathVariable Integer id) {
@@ -42,20 +51,39 @@ public class FirefighterController {
                 .body(dtosList);
     }
 
-    @RequestMapping(value = "firefighter", method = RequestMethod.POST)
-    public ResponseEntity<Void> addFirefighter(@RequestBody Firefighter firefighter) {
+    @RequestMapping(value = "firefighter/firebrigade/{firebrigadeId}", method = RequestMethod.POST)
+    public ResponseEntity addFirefighter(@RequestBody FirefighterDTO firefighterDto, @PathVariable int firebrigadeId) {
+        FirefighterDTO returnFirefighterDTO = null;
         try {
-            firefighterService.addFirefighter(firefighter);
+            FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeById(firebrigadeId);
+            Firefighter firefighter = firefighterMapper.dtoToEntity(firefighterDto);
+            firefighter.setFireBrigade(fireBrigade);
+            firefighter = firefighterService.addFirefighter(firefighter);
+            if (firefighter == null) {
+                logger.debug("FirefighterController", "Wystąpił błąd podczas dodawania strażaka.");
+            } else {
+                returnFirefighterDTO = firefighterMapper.entityToDto(firefighter);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(returnFirefighterDTO);
+            }
         } catch (Exception e) {
-            logger.error("Blad przy dodawaniu strazaka(controller)", e.getMessage());
+            logger.debug("FirefighterController", "Wystąpił błąd podczas dodawania strażaka. -  " + e.getMessage());
+
         }
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(returnFirefighterDTO);
     }
 
     @PutMapping("firefighter")
-    public ResponseEntity<Firefighter> updateFirefighter(@RequestBody Firefighter firefighter) {
-        firefighterService.updateFirefighter(firefighter);
-        return new ResponseEntity<Firefighter>(firefighter, HttpStatus.OK);
+    public ResponseEntity updateFirefighter(@RequestBody FirefighterDTO firefighterDto) {
+        Firefighter firefighter = firefighterMapper.dtoToEntity(firefighterDto);
+        firefighter = firefighterService.updateFirefighter(firefighter);
+        FirefighterDTO returnFirefighter = firefighterMapper.entityToDto(firefighter);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(returnFirefighter);
     }
 
     @RequestMapping(value = "firefighter/{id}", method = RequestMethod.DELETE)
