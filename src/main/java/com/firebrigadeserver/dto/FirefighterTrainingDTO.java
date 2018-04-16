@@ -4,25 +4,25 @@ import java.util.Date;
 
 public class FirefighterTrainingDTO {
 
-    private int idFirefigherTraining;
-    private int idFirefighter;
+    private int idFirefighterTraining;
+    private FirefighterDTO firefighter;
     private TrainingDTO training;
     private Date trainingDate;
 
-    public int getIdFirefigherTraining() {
-        return idFirefigherTraining;
+    public int getIdFirefighterTraining() {
+        return idFirefighterTraining;
     }
 
-    public void setIdFirefigherTraining(int idFirefigherTraining) {
-        this.idFirefigherTraining = idFirefigherTraining;
+    public void setIdFirefighterTraining(int idFirefighterTraining) {
+        this.idFirefighterTraining = idFirefighterTraining;
     }
 
-    public int getIdFirefighter() {
-        return idFirefighter;
+    public FirefighterDTO getFirefighter() {
+        return firefighter;
     }
 
-    public void setIdFirefighter(int firefighter) {
-        this.idFirefighter = firefighter;
+    public void setFirefighter(FirefighterDTO firefighter) {
+        this.firefighter = firefighter;
     }
 
     public TrainingDTO getTraining() {

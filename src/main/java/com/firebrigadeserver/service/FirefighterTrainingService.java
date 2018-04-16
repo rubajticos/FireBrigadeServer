@@ -4,13 +4,16 @@ import com.firebrigadeserver.entity.Firefighter;
 import com.firebrigadeserver.entity.FirefighterTraining;
 import com.firebrigadeserver.repositories.FirefighterTrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class FirefighterTrainingService implements IFirefighterTrainingService {
 
     @Autowired
     private FirefighterTrainingRepository repository;
+
 
     @Override
     public List<FirefighterTraining> getAllFirefighterTrainings() {
@@ -28,26 +31,21 @@ public class FirefighterTrainingService implements IFirefighterTrainingService {
     }
 
     @Override
-    public FirefighterTraining addFirefighterTraining(FirefighterTraining firefighterTraining) {
-        try {
-            if (repository.existsByFirefighterAndTraining(firefighterTraining.getFirefighter(), firefighterTraining.getTraining())) {
-                return null;
-            } else {
-                return repository.save(firefighterTraining);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+    public List<FirefighterTraining> addFirefighterTrainings(List<FirefighterTraining> firefighterTrainings) {
+        return repository.save(firefighterTrainings);
     }
 
     @Override
-    public FirefighterTraining updateFirefighterTraining(FirefighterTraining firefighterTraining) {
-        FirefighterTraining updateFirefighterTraining = repository.findOne(firefighterTraining.getIdFirefighterTraining());
-        updateFirefighterTraining.setFirefighter(firefighterTraining.getFirefighter());
-        updateFirefighterTraining.setTraining(firefighterTraining.getTraining());
-        updateFirefighterTraining.setTrainigDate(firefighterTraining.getTrainigDate());
-        return repository.save(updateFirefighterTraining);
+    public List<FirefighterTraining> updateFirefighterTrainings(List<FirefighterTraining> firefighterTraining) {
+        Firefighter f = firefighterTraining.get(0).getFirefighter();
+        List<FirefighterTraining> beforeUpdateTrainings = repository.findByFirefighter(f);
+        List<FirefighterTraining> newTrainings = firefighterTraining;
+        beforeUpdateTrainings.forEach(training -> {
+            if (!newTrainings.contains(training)) {
+                deleteFirefighterTraining(training.getIdFirefighterTraining());
+            }
+        });
+        return repository.save(newTrainings);
     }
 
     @Override

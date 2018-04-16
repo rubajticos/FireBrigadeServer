@@ -13,9 +13,9 @@ public interface IFirefighterTrainingService {
 
     List<FirefighterTraining> getFireFighterTrainingByFirefighter(Firefighter firefighter);
 
-    FirefighterTraining addFirefighterTraining(FirefighterTraining firefighterTraining);
+    List<FirefighterTraining> addFirefighterTrainings(List<FirefighterTraining> firefighterTrainings);
 
-    FirefighterTraining updateFirefighterTraining(FirefighterTraining firefighterTraining);
+    List<FirefighterTraining> updateFirefighterTrainings(List<FirefighterTraining> firefighterTraining);
 
     void deleteFirefighterTraining(int firefighterTrainingId);
 

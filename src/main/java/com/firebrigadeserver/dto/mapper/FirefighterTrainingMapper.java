@@ -1,7 +1,6 @@
 package com.firebrigadeserver.dto.mapper;
 
 import com.firebrigadeserver.dto.FirefighterTrainingDTO;
-import com.firebrigadeserver.entity.Firefighter;
 import com.firebrigadeserver.entity.FirefighterTraining;
 import com.firebrigadeserver.service.FirefighterService;
 import org.modelmapper.ModelMapper;
@@ -27,9 +26,6 @@ public class FirefighterTrainingMapper implements Mapper<FirefighterTraining, Fi
     @Override
     public FirefighterTraining dtoToEntity(FirefighterTrainingDTO dto) {
         FirefighterTraining ft = modelMapper.map(dto, FirefighterTraining.class);
-        Firefighter ff = firefighterService.getFireFighterById(dto.getIdFirefighter());
-        ft.setFirefighter(ff);
-        ft.setTraining(trainingMapper.dtoToEntity(dto.getTraining()));
         return ft;
     }
 
@@ -43,8 +39,6 @@ public class FirefighterTrainingMapper implements Mapper<FirefighterTraining, Fi
     @Override
     public FirefighterTrainingDTO entityToDto(FirefighterTraining entity) {
         FirefighterTrainingDTO ft = modelMapper.map(entity, FirefighterTrainingDTO.class);
-        ft.setIdFirefighter(entity.getFirefighter().getIdFirefighter());
-        ft.setTraining(trainingMapper.entityToDto(entity.getTraining()));
         return ft;
     }
 
