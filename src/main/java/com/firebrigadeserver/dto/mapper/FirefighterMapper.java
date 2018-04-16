@@ -16,6 +16,12 @@ public class FirefighterMapper implements Mapper<Firefighter, FirefighterDTO> {
     @Autowired
     private FirefighterTrainingMapper firefighterTrainingMapper;
 
+    @Autowired
+    private TrainingMapper trainingMapper;
+
+    @Autowired
+    private FireBrigadeMapper fireBrigadeMapper;
+
     @Override
     public Firefighter dtoToEntity(FirefighterDTO dto) {
         Firefighter firefighter = modelMapper.map(dto, Firefighter.class);
@@ -31,7 +37,8 @@ public class FirefighterMapper implements Mapper<Firefighter, FirefighterDTO> {
 
     @Override
     public FirefighterDTO entityToDto(Firefighter entity) {
-        return modelMapper.map(entity, FirefighterDTO.class);
+        FirefighterDTO firefighterDTO = modelMapper.map(entity, FirefighterDTO.class);
+        return firefighterDTO;
     }
 
     @Override

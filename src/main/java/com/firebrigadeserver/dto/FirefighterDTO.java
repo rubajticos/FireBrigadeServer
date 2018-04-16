@@ -1,7 +1,6 @@
 package com.firebrigadeserver.dto;
 
 import java.util.Date;
-import java.util.List;
 
 public class FirefighterDTO {
 
@@ -10,7 +9,6 @@ public class FirefighterDTO {
     private String lastName;
     private Date birthday;
     private Date expiryMedicalTest;
-    private List<FirefighterTrainingDTO> trainings;
 
     public int getIdFirefighter() {
         return idFirefighter;
@@ -50,13 +48,5 @@ public class FirefighterDTO {
 
     public void setExpiryMedicalTest(Date expiryMedicalTest) {
         this.expiryMedicalTest = expiryMedicalTest;
-    }
-
-    public List<FirefighterTrainingDTO> getTrainings() {
-        return trainings;
-    }
-
-    public void setTrainings(List<FirefighterTrainingDTO> trainings) {
-        this.trainings = trainings;
     }
 }

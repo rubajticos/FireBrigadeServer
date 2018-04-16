@@ -33,7 +33,7 @@ public class FirefighterController {
     private FireBrigadeMapper fireBrigadeMapper;
 
     @GetMapping("firefighter/{id}")
-    public ResponseEntity getFirefighterByid(@PathVariable Integer id) {
+    public ResponseEntity getFirefighterById(@PathVariable Integer id) {
         Firefighter firefighter = firefighterService.getFireFighterById(id);
         FirefighterDTO firefighterDTO = firefighterMapper.entityToDto(firefighter);
         logger.debug("ppp " + firefighterDTO.toString());
@@ -50,6 +50,23 @@ public class FirefighterController {
                 .status(HttpStatus.OK)
                 .body(dtosList);
     }
+
+    @GetMapping("firefighters/firebrigade/{firebrigadeId}")
+    public ResponseEntity getAllFirefighters(@PathVariable Integer firebrigadeId) {
+        List<Firefighter> list = firefighterService.getFirefightersByFirebrigade(firebrigadeId);
+        List<FirefighterDTO> dtosList = firefighterMapper.entityListToDtoList(list);
+        if (dtosList.size() != 0) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(dtosList);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body("Brak strażaków dla tej jednostki");
+
+    }
+
 
     @RequestMapping(value = "firefighter/firebrigade/{firebrigadeId}", method = RequestMethod.POST)
     public ResponseEntity addFirefighter(@RequestBody FirefighterDTO firefighterDto, @PathVariable int firebrigadeId) {

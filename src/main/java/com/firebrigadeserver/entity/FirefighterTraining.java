@@ -30,6 +30,14 @@ public class FirefighterTraining implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date trainigDate;
 
+    public int getIdFirefighterTraining() {
+        return idFirefighterTraining;
+    }
+
+    public void setIdFirefighterTraining(int idFirefighterTraining) {
+        this.idFirefighterTraining = idFirefighterTraining;
+    }
+
     public Firefighter getFirefighter() {
         return firefighter;
     }

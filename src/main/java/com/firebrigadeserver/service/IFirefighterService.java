@@ -9,6 +9,8 @@ public interface IFirefighterService {
 
     List<Firefighter> getAllFirefighters();
 
+    List<Firefighter> getFirefightersByFirebrigade(int firebrigadeId);
+
     Firefighter getFireFighterById(int firefighterId);
 
     Firefighter getFireFighterByFirebrigadeAndNameAndLastName(FireBrigade firebrigade, String name, String lastname);

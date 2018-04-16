@@ -5,7 +5,7 @@ import java.util.Date;
 public class FirefighterTrainingDTO {
 
     private int idFirefigherTraining;
-    private int firefighter;
+    private int idFirefighter;
     private TrainingDTO training;
     private Date trainingDate;
 
@@ -17,12 +17,12 @@ public class FirefighterTrainingDTO {
         this.idFirefigherTraining = idFirefigherTraining;
     }
 
-    public int getFirefighter() {
-        return firefighter;
+    public int getIdFirefighter() {
+        return idFirefighter;
     }
 
-    public void setFirefighter(int firefighter) {
-        this.firefighter = firefighter;
+    public void setIdFirefighter(int firefighter) {
+        this.idFirefighter = firefighter;
     }
 
     public TrainingDTO getTraining() {

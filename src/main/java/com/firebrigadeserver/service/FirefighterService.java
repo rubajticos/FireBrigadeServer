@@ -2,6 +2,7 @@ package com.firebrigadeserver.service;
 
 import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.Firefighter;
+import com.firebrigadeserver.repositories.FireBrigadeRepository;
 import com.firebrigadeserver.repositories.FirefighterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,18 @@ public class FirefighterService implements IFirefighterService {
     @Autowired
     private FirefighterRepository repository;
 
+    @Autowired
+    private FireBrigadeRepository fireBrigadeRepository;
+
     @Override
     public List<Firefighter> getAllFirefighters() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Firefighter> getFirefightersByFirebrigade(int firebrigadeId) {
+        FireBrigade fb = fireBrigadeRepository.findByIdFireBrigade(firebrigadeId);
+        return repository.findByFireBrigade(fb);
     }
 
     @Override
@@ -28,6 +38,7 @@ public class FirefighterService implements IFirefighterService {
     public Firefighter getFireFighterByFirebrigadeAndNameAndLastName(FireBrigade firebrigade, String name, String lastname) {
         return repository.findByFireBrigadeAndNameAndLastName(firebrigade, name, lastname);
     }
+
 
     @Override
     public Firefighter addFirefighter(Firefighter firefighter) {

@@ -27,7 +27,7 @@ public class FirefighterTrainingMapper implements Mapper<FirefighterTraining, Fi
     @Override
     public FirefighterTraining dtoToEntity(FirefighterTrainingDTO dto) {
         FirefighterTraining ft = modelMapper.map(dto, FirefighterTraining.class);
-        Firefighter ff = firefighterService.getFireFighterById(dto.getFirefighter());
+        Firefighter ff = firefighterService.getFireFighterById(dto.getIdFirefighter());
         ft.setFirefighter(ff);
         ft.setTraining(trainingMapper.dtoToEntity(dto.getTraining()));
         return ft;
@@ -43,6 +43,7 @@ public class FirefighterTrainingMapper implements Mapper<FirefighterTraining, Fi
     @Override
     public FirefighterTrainingDTO entityToDto(FirefighterTraining entity) {
         FirefighterTrainingDTO ft = modelMapper.map(entity, FirefighterTrainingDTO.class);
+        ft.setIdFirefighter(entity.getFirefighter().getIdFirefighter());
         ft.setTraining(trainingMapper.entityToDto(entity.getTraining()));
         return ft;
     }
