@@ -35,9 +35,15 @@ public class FirefighterTrainingController {
         Firefighter firefighter = firefighterService.getFireFighterById(id);
         List<FirefighterTraining> listOfTrainings = firefighterTrainingService.getFireFighterTrainingByFirefighter(firefighter);
         List<FirefighterTrainingDTO> listofTrainingsDto = firefighterTrainingMapper.entityListToDtoList(listOfTrainings);
+        if (listofTrainingsDto.size() != 0) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(listofTrainingsDto);
+        }
+
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(listofTrainingsDto);
+                .status(HttpStatus.NO_CONTENT)
+                .body("Brak wyszkolenia dla tego strażaka");
     }
 
     // TODO: 16/04/2018 Dodawanie i aktualizacja umiejetnosci
