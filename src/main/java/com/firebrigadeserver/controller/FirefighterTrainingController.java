@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,5 +44,29 @@ public class FirefighterTrainingController {
                 .body("Brak wyszkolenia dla tego strażaka");
     }
 
-    // TODO: 16/04/2018 Dodawanie i aktualizacja umiejetnosci
+    @RequestMapping(value = "firefighter/trainings", method = RequestMethod.POST)
+    public ResponseEntity addFirefighterTrainings(@RequestBody List<FirefighterTrainingDTO> trainingsDTO) {
+        List<FirefighterTrainingDTO> returnTrainings = null;
+        try {
+            List<FirefighterTraining> trainings = firefighterTrainingMapper.dtoListToEntityList(trainingsDTO);
+            trainings = firefighterTrainingService.addFirefighterTrainings(trainings);
+            if (trainings == null) {
+                logger.debug("FirefighterTraining Controller", "Wystąpił błąd podczas dodawania szkoleń strażaka: ");
+            } else {
+                returnTrainings = trainingsDTO;
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(returnTrainings);
+            }
+        } catch (Exception e) {
+            logger.debug("FirefighterTraining Controller", "Wystąpił błąd podczas dodawania szkoleń strażaka: " + e.getMessage());
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(returnTrainings);
+    }
+
+    // TODO: 02/05/2018 aktualizacja umiejetnosci
+
 }

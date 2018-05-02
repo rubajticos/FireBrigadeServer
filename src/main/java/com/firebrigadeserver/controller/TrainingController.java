@@ -1,5 +1,7 @@
 package com.firebrigadeserver.controller;
 
+import com.firebrigadeserver.dto.TrainingDTO;
+import com.firebrigadeserver.dto.mapper.TrainingMapper;
 import com.firebrigadeserver.entity.Training;
 import com.firebrigadeserver.service.ITrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,16 @@ public class TrainingController {
     @Autowired
     private ITrainingService trainingService;
 
+    @Autowired
+    private TrainingMapper trainingMapper;
+
     @GetMapping("trainings")
-    public ResponseEntity<List<Training>> getAllTrainings() {
+    public ResponseEntity getAllTrainings() {
         List<Training> list = trainingService.getAllTrainings();
-        return new ResponseEntity<List<Training>>(list, HttpStatus.OK);
+        List<TrainingDTO> dtoList = trainingMapper.entityListToDtoList(list);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dtoList);
+
     }
 }
