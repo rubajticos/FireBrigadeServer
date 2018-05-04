@@ -28,7 +28,7 @@ public class FirefighterTraining implements Serializable {
 
     @Column(name = "training_date", columnDefinition = "DATE")
     @Temporal(TemporalType.DATE)
-    private Date trainigDate;
+    private Date trainingDate;
 
     public int getIdFirefighterTraining() {
         return idFirefighterTraining;
@@ -54,11 +54,11 @@ public class FirefighterTraining implements Serializable {
         this.training = training;
     }
 
-    public Date getTrainigDate() {
-        return trainigDate;
+    public Date getTrainingDate() {
+        return trainingDate;
     }
 
-    public void setTrainigDate(Date trainigDate) {
-        this.trainigDate = trainigDate;
+    public void setTrainingDate(Date trainingDate) {
+        this.trainingDate = trainingDate;
     }
 }

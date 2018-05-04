@@ -53,7 +53,7 @@ public class FirefighterTrainingController {
             if (trainings == null) {
                 logger.debug("FirefighterTraining Controller", "Wystąpił błąd podczas dodawania szkoleń strażaka: ");
             } else {
-                returnTrainings = trainingsDTO;
+                returnTrainings = firefighterTrainingMapper.entityListToDtoList(trainings);
                 return ResponseEntity
                         .status(HttpStatus.OK)
                         .body(returnTrainings);
