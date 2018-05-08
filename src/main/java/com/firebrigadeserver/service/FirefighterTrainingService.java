@@ -36,7 +36,7 @@ public class FirefighterTrainingService implements IFirefighterTrainingService {
     }
 
     @Override
-    public List<FirefighterTraining> updateFirefighterTrainings(List<FirefighterTraining> firefighterTraining) {
+    public List<FirefighterTraining>  updateFirefighterTrainings(List<FirefighterTraining> firefighterTraining) {
         Firefighter f = firefighterTraining.get(0).getFirefighter();
         List<FirefighterTraining> beforeUpdateTrainings = repository.findByFirefighter(f);
         List<FirefighterTraining> newTrainings = firefighterTraining;

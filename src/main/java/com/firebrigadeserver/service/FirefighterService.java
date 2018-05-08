@@ -61,7 +61,6 @@ public class FirefighterService implements IFirefighterService {
         updateFirefighter.setLastName(firefighter.getLastName());
         updateFirefighter.setBirthday(firefighter.getBirthday());
         updateFirefighter.setExpiryMedicalTest(firefighter.getExpiryMedicalTest());
-        updateFirefighter.setFireBrigade(firefighter.getFireBrigade());
         updateFirefighter.setTrainings(firefighter.getTrainings());
         return repository.save(updateFirefighter);
     }

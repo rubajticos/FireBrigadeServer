@@ -67,6 +67,27 @@ public class FirefighterTrainingController {
                 .body(returnTrainings);
     }
 
-    // TODO: 02/05/2018 aktualizacja umiejetnosci
+    @RequestMapping(value = "firefighter/trainings", method = RequestMethod.PUT)
+    public ResponseEntity updateFirefighterTrainings(@RequestBody List<FirefighterTrainingDTO> trainingsDTO) {
+        List<FirefighterTrainingDTO> returnTrainings = null;
+        try {
+            List<FirefighterTraining> trainings = firefighterTrainingMapper.dtoListToEntityList(trainingsDTO);
+            trainings = firefighterTrainingService.updateFirefighterTrainings(trainings);
+            if (trainings == null) {
+                logger.debug("FirefighterTraining Controller", "Wystąpił błąd podczas dodawania szkoleń strażaka: ");
+            } else {
+                returnTrainings = firefighterTrainingMapper.entityListToDtoList(trainings);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(returnTrainings);
+            }
+        } catch (Exception e) {
+            logger.debug("FirefighterTraining Controller", "Wystąpił błąd podczas dodawania szkoleń strażaka: " + e.getMessage());
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(returnTrainings);
+    }
 
 }
