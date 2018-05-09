@@ -8,11 +8,13 @@ public interface ICarService {
 
     List<Car> getAllCars();
 
+    List<Car> getCarsByFireBrigade(int fireBrigadeId);
+
     Car getCarById(int carId);
 
-    boolean addCar(Car car);
+    Car addCar(Car car);
 
-    void updateCar(Car car);
+    Car updateCar(Car car);
 
     void deleteCar(int carId);
 }

@@ -39,7 +39,12 @@ public class ModelMapperConfig {
     }
 
     @Bean
-    FirefighterTrainingMapper firefighterTrainingMapper() {
+    public FirefighterTrainingMapper firefighterTrainingMapper() {
         return new FirefighterTrainingMapper();
+    }
+
+    @Bean
+    public CarMapper carMapper() {
+        return new CarMapper();
     }
 }

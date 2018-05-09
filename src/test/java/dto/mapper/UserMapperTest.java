@@ -42,6 +42,12 @@ public class UserMapperTest {
     }
 
     @Test
+    public void entityToDtoNullTest() {
+        User user = null;
+        Assert.assertNull(userMapper.entityToDto(user));
+    }
+
+    @Test
     public void entityListToDtoListTest() {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

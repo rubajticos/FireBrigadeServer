@@ -1,7 +1,9 @@
 package com.firebrigadeserver.service;
 
-import com.firebrigadeserver.dao.ICarDAO;
 import com.firebrigadeserver.entity.Car;
+import com.firebrigadeserver.entity.FireBrigade;
+import com.firebrigadeserver.repositories.CarRepository;
+import com.firebrigadeserver.repositories.FireBrigadeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +16,52 @@ public class CarService implements ICarService {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ICarDAO carDAO;
+    private CarRepository repository;
+
+    @Autowired
+    private FireBrigadeRepository fireBrigadeRepository;
 
 
     @Override
     public List<Car> getAllCars() {
-        return carDAO.getAllCars();
+        return repository.findAll();
+    }
+
+    @Override
+    public List<Car> getCarsByFireBrigade(int fireBrigadeId) {
+        FireBrigade fireBrigade = fireBrigadeRepository.findByIdFireBrigade(fireBrigadeId);
+        return repository.findByFireBrigade(fireBrigade);
     }
 
     @Override
     public Car getCarById(int carId) {
-        return carDAO.getCarById(carId);
+        return repository.findOne(carId);
     }
 
     @Override
-    public boolean addCar(Car car) {
-        if (carDAO.carExist(car.getModel(), car.getPlates())) {
-            return false;
+    public Car addCar(Car car) {
+        if (repository.existsByModelAndTypeAndOperationalNumbersAndPlates(car.getModel(), car.getType(), car.getOperationalNumbers(), car.getPlates())) {
+            return null;
         } else {
-            carDAO.addCar(car);
-            return true;
+            return repository.save(car);
         }
     }
 
     @Override
-    public void updateCar(Car car) {
-        carDAO.updateCar(car);
+    public Car updateCar(Car car) {
+        Car updateCar = repository.findById(car.getId());
+        updateCar.setModel(car.getModel());
+        updateCar.setOperationalNumbers(car.getOperationalNumbers());
+        updateCar.setPlates(car.getPlates());
+        updateCar.setWater(car.getWater());
+        updateCar.setFoam(car.getFoam());
+        updateCar.setMotorPumpPerformance(car.getMotorPumpPerformance());
+        return repository.save(updateCar);
     }
 
     @Override
     public void deleteCar(int carId) {
-        carDAO.deleteCar(carId);
+        repository.delete(carId);
     }
 }
 

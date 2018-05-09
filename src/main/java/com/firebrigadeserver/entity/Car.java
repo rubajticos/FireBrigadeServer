@@ -51,19 +51,26 @@ public class Car implements Serializable {
     private List<CarIncident> incidents;
 
     public Car() {
-        this(-1, null, null, null, null, -1, null);
+        this(-1, null, null, null, null, -1, -1, -1, null, null, null);
     }
 
-    public Car(int id, String model, String operationalNumbers, String plates, String type, int water, FireBrigade fireBrigade) {
+    public Car(int id, String model, String operationalNumbers, String plates, String type, int water, int foam, int motorPumpPerformance) {
+        this(id, model, operationalNumbers, plates, type, water, foam, motorPumpPerformance, null, null, null);
+    }
+
+    public Car(int id, String model, String operationalNumbers, String plates, String type, int water, int foam, int motorPumpPerformance, FireBrigade fireBrigade, List<CarEquipment> equipment, List<CarIncident> incidents) {
         this.id = id;
         this.model = model;
         this.operationalNumbers = operationalNumbers;
         this.plates = plates;
         this.type = type;
         this.water = water;
+        this.foam = foam;
+        this.motorPumpPerformance = motorPumpPerformance;
         this.fireBrigade = fireBrigade;
+        this.equipment = equipment;
+        this.incidents = incidents;
     }
-
 
     public int getId() {
         return id;
