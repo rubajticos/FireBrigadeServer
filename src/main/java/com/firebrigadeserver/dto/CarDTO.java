@@ -10,6 +10,7 @@ public class CarDTO {
     private int water;
     private int foam;
     private int motorPumpPerformance;
+    private int numberOfSeats;
 
     public int getId() {
         return id;
@@ -73,5 +74,13 @@ public class CarDTO {
 
     public void setMotorPumpPerformance(int motorPumpPerformance) {
         this.motorPumpPerformance = motorPumpPerformance;
+    }
+
+    public int getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(int numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
     }
 }
