@@ -15,7 +15,6 @@ public interface FirefighterRepository extends JpaRepository<Firefighter, Intege
 
     List<Firefighter> findByFireBrigade(FireBrigade fireBrigade);
 
-
     boolean existsByNameAndLastNameAndBirthday(String name, String lastname, Date birthday);
 
 }

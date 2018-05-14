@@ -8,11 +8,13 @@ public interface IEquipmentService {
 
     List<Equipment> getAllEquipment();
 
+    List<Equipment> getEquipmentsByFireBrigade(int fireBrigadeId);
+
     Equipment getEquipmentById(int equipmentId);
 
-    boolean addEquipment(Equipment equipment);
+    Equipment addEquipment(Equipment equipment);
 
-    void updateEquipment(Equipment equipment);
+    Equipment updateEquipment(Equipment equipment);
 
     void deleteEquipment(int eqiupmentId);
 

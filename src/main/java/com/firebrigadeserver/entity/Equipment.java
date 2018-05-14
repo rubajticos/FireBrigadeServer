@@ -1,7 +1,5 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -23,15 +21,12 @@ public class Equipment implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_firebrigade")
-    @JsonBackReference
     private FireBrigade fireBrigade;
 
     @OneToMany(mappedBy = "equipment")
-    @JsonBackReference
     private List<CarEquipment> equipmentOnTheCar;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "usedEquipments")
-    @JsonBackReference
     private List<CarIncident> carIncidents;
 
 
