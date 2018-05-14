@@ -1,8 +1,5 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -12,15 +9,17 @@ import java.util.Date;
 public class CarEquipment implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_car_equipment", unique = true, nullable = false)
+    private int carEquipmentId;
+
     @ManyToOne
     @JoinColumn(name = "id_car")
-    @JsonBackReference
     private Car car;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "id_equipment")
-    @JsonManagedReference
     private Equipment equipment;
 
     @Column(name = "qty")
@@ -35,6 +34,14 @@ public class CarEquipment implements Serializable {
     private Date dateOfWithdrawal;
 
     public CarEquipment() {
+    }
+
+    public int getCarEquipmentId() {
+        return carEquipmentId;
+    }
+
+    public void setCarEquipmentId(int carEquipmentId) {
+        this.carEquipmentId = carEquipmentId;
     }
 
     public Car getCar() {
