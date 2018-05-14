@@ -1,7 +1,12 @@
 package com.firebrigadeserver.controller;
 
+import com.firebrigadeserver.dto.EquipmentDTO;
+import com.firebrigadeserver.dto.mapper.EquipmentMapper;
+import com.firebrigadeserver.dto.mapper.FireBrigadeMapper;
 import com.firebrigadeserver.entity.Equipment;
+import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.service.IEquipmentService;
+import com.firebrigadeserver.service.IFireBrigadeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,44 +18,111 @@ import java.util.List;
 
 @RestController
 public class EquipmentController {
+    public final static String TAG = "EquipmentController";
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private IEquipmentService equipmentService;
 
+    @Autowired
+    private IFireBrigadeService fireBrigadeService;
+
+    @Autowired
+    private EquipmentMapper equipmentMapper;
+
+    @Autowired
+    private FireBrigadeMapper fireBrigadeMapper;
+
     @GetMapping("equipment/{id}")
-    public ResponseEntity<Equipment> getEquipmentById(@PathVariable Integer id) {
+    public ResponseEntity getEquipmentById(@PathVariable Integer id) {
         Equipment equipment = equipmentService.getEquipmentById(id);
-        return new ResponseEntity<Equipment>(equipment, HttpStatus.OK);
+
+        if (equipment != null) {
+            EquipmentDTO equipmentDTO = equipmentMapper.entityToDto(equipment);
+            logger.debug(TAG, "called getting equipment by ID");
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(equipmentDTO);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
     }
 
     @GetMapping("equipments")
-    public ResponseEntity<List<Equipment>> getAllEquipments() {
-        List<Equipment> list = equipmentService.getAllEquipment();
-        return new ResponseEntity<List<Equipment>>(list, HttpStatus.OK);
-    }
+    public ResponseEntity getAllEquipments() {
+        List<Equipment> equipmentList = equipmentService.getAllEquipment();
 
-    @RequestMapping(value = "equipment", method = RequestMethod.POST)
-    public ResponseEntity<Void> addEquipment(@RequestBody Equipment equipment) {
-        try {
-            equipmentService.addEquipment(equipment);
-        } catch (Exception e) {
-            logger.error("Blad przy dodawaniu sprzetu", e.getMessage());
+        if (equipmentList.size() > 0) {
+            List<EquipmentDTO> equipmentDTOList = equipmentMapper.entityListToDtoList(equipmentList);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(equipmentDTOList);
         }
 
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+    }
+
+    @GetMapping("equipments/firebrigade/{fireBrigadeId}")
+    public ResponseEntity getEquipmentsForFireBrigade(@PathVariable Integer fireBrigadeId) {
+        List<Equipment> equipmentList = equipmentService.getEquipmentsByFireBrigade(fireBrigadeId);
+        if (equipmentList.size() > 0) {
+            List<EquipmentDTO> equipmentDTOList = equipmentMapper.entityListToDtoList(equipmentList);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(equipmentDTOList);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+    }
+
+    @RequestMapping(value = "equipment/fireBrigade/{fireBrigadeId}", method = RequestMethod.POST)
+    public ResponseEntity addEquipment(@RequestBody EquipmentDTO equipmentDTO, @PathVariable Integer fireBrigadeId) {
+        FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeById(fireBrigadeId);
+        if (fireBrigade != null) {
+            Equipment candidateEquipment = equipmentMapper.dtoToEntity(equipmentDTO);
+            candidateEquipment.setFireBrigade(fireBrigade);
+            candidateEquipment = equipmentService.addEquipment(candidateEquipment);
+            if (candidateEquipment != null) {
+                EquipmentDTO addedEquipment = equipmentMapper.entityToDto(candidateEquipment);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(addedEquipment);
+            }
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
     }
 
     @RequestMapping(value = "equipment", method = RequestMethod.PUT)
-    public ResponseEntity<Equipment> updateEquipment(@RequestBody Equipment equipment) {
-        equipmentService.updateEquipment(equipment);
-        return new ResponseEntity<Equipment>(equipment, HttpStatus.OK);
+    public ResponseEntity updateEquipment(@RequestBody EquipmentDTO equipmentDto) {
+        Equipment equipment = equipmentMapper.dtoToEntity(equipmentDto);
+        equipment = equipmentService.updateEquipment(equipment);
+        if (equipment != null) {
+            EquipmentDTO updatedEquipment = equipmentMapper.entityToDto(equipment);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(updatedEquipment);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
     }
 
     @RequestMapping(value = "equipment/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteEquipment(@PathVariable Integer id) {
+    public ResponseEntity deleteEquipment(@PathVariable Integer id) {
         equipmentService.deleteEquipment(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(null);
     }
 
 }

@@ -6,6 +6,9 @@ public class EquipmentDTO {
     private String name;
     private String type;
 
+    public EquipmentDTO() {
+    }
+
     public EquipmentDTO(int id, String name, String type) {
         this.id = id;
         this.name = name;
