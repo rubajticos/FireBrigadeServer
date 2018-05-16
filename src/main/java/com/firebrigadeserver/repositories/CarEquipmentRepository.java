@@ -12,10 +12,12 @@ public interface CarEquipmentRepository extends JpaRepository<CarEquipment, Inte
 
     List<CarEquipment> findByCar(Car car);
 
-    List<CarEquipment> findByCarAndDateOfWithDrawalIsNull(Car car);
+    List<CarEquipment> findByCarAndDateOfWithdrawalIsNull(Car car);
 
-    List<CarEquipment> findByCarAndDateOfWithDrawalIsNotNull(Car car);
+    List<CarEquipment> findByCarAndDateOfWithdrawalIsNotNull(Car car);
 
-    boolean existsByCarAndEquipmentAndQtyAndDateOfPutAndDateoOfWithDrawal(Car car, Equipment equipment, int qty, Date put, Date withdrawal);
+    CarEquipment findByEquipmentAndDateOfWithdrawalIsNull(Equipment equipment);
+
+    boolean existsByCarAndEquipmentAndQtyAndDateOfPutAndDateOfWithdrawal(Car car, Equipment equipment, int qty, Date put, Date withdrawal);
 
 }

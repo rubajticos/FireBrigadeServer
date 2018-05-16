@@ -12,6 +12,8 @@ public interface ICarEquipmentService {
 
     List<CarEquipment> getActiveCarEquipmentForCar(int carId);
 
+    CarEquipment getActiveCarEquipmentForEquipment(int equipmentId);
+
     List<CarEquipment> getWithdrawalCarEquipmentForCar(int carId);
 
     CarEquipment addCarEquipment(CarEquipment carEquipment);

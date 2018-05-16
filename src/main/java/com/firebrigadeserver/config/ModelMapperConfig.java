@@ -52,4 +52,9 @@ public class ModelMapperConfig {
     public EquipmentMapper equipmentMapper() {
         return new EquipmentMapper();
     }
+
+    @Bean
+    public CarEquipmentMapper carEquipmentMapper() {
+        return new CarEquipmentMapper();
+    }
 }

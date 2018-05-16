@@ -1,18 +1,20 @@
-package com.firebrigadeserver.dto;
+package com.firebrigadeserver.dto.additional;
 
-public class EquipmentDTO {
+public class EquipmentAdditional {
 
     private int id;
     private String name;
     private String type;
+    private String carName;
 
-    public EquipmentDTO() {
+    public EquipmentAdditional() {
     }
 
-    public EquipmentDTO(int id, String name, String type) {
+    public EquipmentAdditional(int id, String name, String type, String carName) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.carName = carName;
     }
 
     public int getId() {
@@ -39,5 +41,11 @@ public class EquipmentDTO {
         this.type = type;
     }
 
+    public String getCarName() {
+        return carName;
+    }
 
+    public void setCarName(String carName) {
+        this.carName = carName;
+    }
 }

@@ -2,15 +2,28 @@ package com.firebrigadeserver.service;
 
 import com.firebrigadeserver.entity.Car;
 import com.firebrigadeserver.entity.CarEquipment;
+import com.firebrigadeserver.entity.Equipment;
 import com.firebrigadeserver.repositories.CarEquipmentRepository;
+import com.firebrigadeserver.repositories.EquipmentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CarEquipmentService implements ICarEquipmentService {
+    public final static String TAG = "CarEquipment Service";
+
+    protected Logger logger = LoggerFactory.getLogger(getClass());
+
 
     @Autowired
     private CarEquipmentRepository repository;
+
+    @Autowired
+    private EquipmentRepository equipmentRepository;
 
     @Autowired
     private CarService carService;
@@ -27,19 +40,27 @@ public class CarEquipmentService implements ICarEquipmentService {
 
     @Override
     public List<CarEquipment> getActiveCarEquipmentForCar(int carId) {
+        logger.debug(TAG, "pobieranie aktywnych sprzetow samochodu o id = " + carId);
         Car car = carService.getCarById(carId);
-        return repository.findByCarAndDateOfWithDrawalIsNull(car);
+        return repository.findByCarAndDateOfWithdrawalIsNull(car);
+    }
+
+    @Override
+    public CarEquipment getActiveCarEquipmentForEquipment(int equipmentId) {
+        Equipment equipment = equipmentRepository.findOne(equipmentId);
+        CarEquipment carEquipment = repository.findByEquipmentAndDateOfWithdrawalIsNull(equipment);
+        return carEquipment;
     }
 
     @Override
     public List<CarEquipment> getWithdrawalCarEquipmentForCar(int carId) {
         Car car = carService.getCarById(carId);
-        return repository.findByCarAndDateOfWithDrawalIsNotNull(car);
+        return repository.findByCarAndDateOfWithdrawalIsNotNull(car);
     }
 
     @Override
     public CarEquipment addCarEquipment(CarEquipment carEquipment) {
-        if (!repository.existsByCarAndEquipmentAndQtyAndDateOfPutAndDateoOfWithDrawal(
+        if (!repository.existsByCarAndEquipmentAndQtyAndDateOfPutAndDateOfWithdrawal(
                 carEquipment.getCar(), carEquipment.getEquipment(), carEquipment.getQty(), carEquipment.getDateOfPut(), carEquipment.getDateOfWithdrawal())) {
             return repository.save(carEquipment);
         }

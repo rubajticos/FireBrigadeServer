@@ -1,6 +1,7 @@
 package com.firebrigadeserver.controller;
 
 import com.firebrigadeserver.dto.EquipmentDTO;
+import com.firebrigadeserver.dto.additional.EquipmentAdditional;
 import com.firebrigadeserver.dto.mapper.EquipmentMapper;
 import com.firebrigadeserver.dto.mapper.FireBrigadeMapper;
 import com.firebrigadeserver.entity.Equipment;
@@ -74,6 +75,20 @@ public class EquipmentController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(equipmentDTOList);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+    }
+
+    @GetMapping("equipments/firebrigade/{fireBrigadeId}/additional")
+    public ResponseEntity getActiveEquipmentsAdditionalForFireBrigade(@PathVariable Integer fireBrigadeId) {
+        List<EquipmentAdditional> equipmentAdditionalList = equipmentService.getActiveEquipmentsByFireBrigadeWithCarNames(fireBrigadeId);
+        if (equipmentAdditionalList.size() > 0) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(equipmentAdditionalList);
         }
 
         return ResponseEntity

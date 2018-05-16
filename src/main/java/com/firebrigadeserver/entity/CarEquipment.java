@@ -17,7 +17,6 @@ public class CarEquipment implements Serializable {
     @JoinColumn(name = "id_car")
     private Car car;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_equipment")
     private Equipment equipment;
