@@ -5,6 +5,7 @@ public class EquipmentDTO {
     private int id;
     private String name;
     private String type;
+    private String subtype;
 
     public EquipmentDTO() {
     }
@@ -39,5 +40,11 @@ public class EquipmentDTO {
         this.type = type;
     }
 
+    public String getSubtype() {
+        return subtype;
+    }
 
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
+    }
 }

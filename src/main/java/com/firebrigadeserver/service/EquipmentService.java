@@ -1,6 +1,10 @@
 package com.firebrigadeserver.service;
 
+import com.firebrigadeserver.dto.additional.CarEquipmentWithAllCars;
 import com.firebrigadeserver.dto.additional.EquipmentAdditional;
+import com.firebrigadeserver.dto.mapper.CarEquipmentMapper;
+import com.firebrigadeserver.dto.mapper.CarMapper;
+import com.firebrigadeserver.entity.Car;
 import com.firebrigadeserver.entity.CarEquipment;
 import com.firebrigadeserver.entity.Equipment;
 import com.firebrigadeserver.entity.FireBrigade;
@@ -8,6 +12,7 @@ import com.firebrigadeserver.repositories.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +27,18 @@ public class EquipmentService implements IEquipmentService {
 
     @Autowired
     private CarEquipmentService carEquipmentService;
+
+    @Autowired
+    private EquipmentService equipmentService;
+
+    @Autowired
+    private CarService carService;
+
+    @Autowired
+    private CarEquipmentMapper carEquipmentMapper;
+
+    @Autowired
+    private CarMapper carMapper;
 
     @Override
     public List<Equipment> getAllEquipment() {
@@ -75,6 +92,7 @@ public class EquipmentService implements IEquipmentService {
                 equipmentAdditional.setId(carEquipment.getEquipment().getId());
                 equipmentAdditional.setName(carEquipment.getEquipment().getName());
                 equipmentAdditional.setType(carEquipment.getEquipment().getType());
+                equipmentAdditional.setSubtype(carEquipment.getEquipment().getSubtype());
                 equipmentAdditional.setCarName(carEquipment.getCar().getModel());
                 equipmentAdditionalList.add(equipmentAdditional);
             } else {
@@ -82,11 +100,33 @@ public class EquipmentService implements IEquipmentService {
                 equipmentAdditional.setId(eq.getId());
                 equipmentAdditional.setName(eq.getName());
                 equipmentAdditional.setType(eq.getType());
+                equipmentAdditional.setSubtype(eq.getSubtype());
                 equipmentAdditional.setCarName(null);
                 equipmentAdditionalList.add(equipmentAdditional);
             }
         }
 
         return equipmentAdditionalList;
+    }
+
+    @Override
+    @Transactional
+    public CarEquipmentWithAllCars getActiveEquipmentAndAllCars(int equipmentId, int fireBrigadeId) {
+        CarEquipment carEquipment = carEquipmentService.getActiveCarEquipmentForEquipment(equipmentId);
+        Equipment equipment = equipmentService.getEquipmentById(equipmentId);
+        List<Car> cars = carService.getCarsByFireBrigade(fireBrigadeId);
+
+        CarEquipmentWithAllCars carEquipmentWithAllCars = new CarEquipmentWithAllCars();
+        if (carEquipment != null) {
+            carEquipmentWithAllCars.setCarEquipment(carEquipmentMapper.entityToDto(carEquipment));
+        } else {
+            CarEquipment emptyCarEquipment = new CarEquipment();
+            emptyCarEquipment.setEquipment(equipment);
+            carEquipmentWithAllCars.setCarEquipment(carEquipmentMapper.entityToDto(emptyCarEquipment));
+        }
+        carEquipmentWithAllCars.setAllCars(carMapper.entityListToDtoList(cars));
+
+        return carEquipmentWithAllCars;
+
     }
 }

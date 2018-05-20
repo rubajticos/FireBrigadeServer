@@ -1,6 +1,7 @@
 package com.firebrigadeserver.controller;
 
 import com.firebrigadeserver.dto.EquipmentDTO;
+import com.firebrigadeserver.dto.additional.CarEquipmentWithAllCars;
 import com.firebrigadeserver.dto.additional.EquipmentAdditional;
 import com.firebrigadeserver.dto.mapper.EquipmentMapper;
 import com.firebrigadeserver.dto.mapper.FireBrigadeMapper;
@@ -89,6 +90,20 @@ public class EquipmentController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(equipmentAdditionalList);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+    }
+
+    @GetMapping("equipment/{equipmentId}/firebrigade/{fireBrigadeId}/with-cars")
+    public ResponseEntity getActiveEquipmentAndAllCars(@PathVariable Integer fireBrigadeId, @PathVariable Integer equipmentId) {
+        CarEquipmentWithAllCars carEquipmentWithAllCars = equipmentService.getActiveEquipmentAndAllCars(equipmentId, fireBrigadeId);
+        if (carEquipmentWithAllCars != null) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(carEquipmentWithAllCars);
         }
 
         return ResponseEntity

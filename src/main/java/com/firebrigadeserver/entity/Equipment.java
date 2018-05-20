@@ -19,6 +19,9 @@ public class Equipment implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "subtype")
+    private String subtype;
+
     @ManyToOne
     @JoinColumn(name = "id_firebrigade")
     private FireBrigade fireBrigade;
@@ -31,14 +34,14 @@ public class Equipment implements Serializable {
 
 
     public Equipment() {
-        this(-1, null, null);
+        this(-1, null, null, null);
     }
 
     public Equipment(int id, String name) {
-        this(id, name, null);
+        this(id, name, null, null);
     }
 
-    public Equipment(int id, String name, String type) {
+    public Equipment(int id, String name, String type, String subtype) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -66,6 +69,14 @@ public class Equipment implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSubtype() {
+        return subtype;
+    }
+
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
     }
 
     public FireBrigade getFireBrigade() {

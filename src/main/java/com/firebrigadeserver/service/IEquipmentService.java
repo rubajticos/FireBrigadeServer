@@ -1,5 +1,6 @@
 package com.firebrigadeserver.service;
 
+import com.firebrigadeserver.dto.additional.CarEquipmentWithAllCars;
 import com.firebrigadeserver.dto.additional.EquipmentAdditional;
 import com.firebrigadeserver.entity.Equipment;
 
@@ -21,5 +22,6 @@ public interface IEquipmentService {
 
     List<EquipmentAdditional> getActiveEquipmentsByFireBrigadeWithCarNames(int fireBrigadeId);
 
+    CarEquipmentWithAllCars getActiveEquipmentAndAllCars(int equipmentId, int fireBrigadeId);
 
 }

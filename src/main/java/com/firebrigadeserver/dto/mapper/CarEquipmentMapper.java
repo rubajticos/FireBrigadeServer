@@ -28,8 +28,8 @@ public class CarEquipmentMapper implements Mapper<CarEquipment, CarEquipmentDTO>
 
     @Override
     public CarEquipmentDTO entityToDto(CarEquipment entity) {
-        CarEquipmentDTO ft = modelMapper.map(entity, CarEquipmentDTO.class);
-        return ft;
+        CarEquipmentDTO carEquipmentDTO = modelMapper.map(entity, CarEquipmentDTO.class);
+        return carEquipmentDTO;
     }
 
     @Override
