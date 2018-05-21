@@ -10,14 +10,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CarEquipmentService implements ICarEquipmentService {
     public final static String TAG = "CarEquipment Service";
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
-
 
     @Autowired
     private CarEquipmentRepository repository;
@@ -27,6 +29,9 @@ public class CarEquipmentService implements ICarEquipmentService {
 
     @Autowired
     private CarService carService;
+
+    @Autowired
+    private EquipmentService equipmentService;
 
     @Override
     public List<CarEquipment> getAllCarEquipment() {
@@ -81,4 +86,70 @@ public class CarEquipmentService implements ICarEquipmentService {
     public void deleteCarEquipment(int carEquipmentId) {
         repository.delete(carEquipmentId);
     }
+
+    @Override
+    @Transactional
+    public CarEquipment createEquipmentAndSetToCar(CarEquipment carEquipment) {
+        Equipment candidateEquipment = carEquipment.getEquipment();
+        Equipment createdEquipment = equipmentService.addEquipment(candidateEquipment);
+
+        CarEquipment candidateCarEquipment = carEquipment;
+        candidateCarEquipment.setEquipment(createdEquipment);
+
+
+        return repository.save(candidateCarEquipment);
+    }
+
+    @Override
+    public CarEquipment updateEquipmentAndUpdateCarSelection(CarEquipment carEquipment) {
+        Equipment toUpdateEquipment = carEquipment.getEquipment();
+        toUpdateEquipment = equipmentService.updateEquipment(toUpdateEquipment);
+
+        CarEquipment toUpdateCarEquipment = carEquipment;
+        toUpdateCarEquipment.setEquipment(toUpdateEquipment);
+
+        CarEquipment previousCarEquipment = getActiveCarEquipmentForEquipment(toUpdateCarEquipment.getEquipment().getId());
+
+        if (previousCarEquipment != null) {
+            Car newCarCandidate = null;
+            try {
+                newCarCandidate = toUpdateCarEquipment.getCar();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+            if (!Objects.equals(newCarCandidate, previousCarEquipment.getCar())) {
+                takeEquipmentOutOfTheCar(previousCarEquipment);
+                if (newCarCandidate != null) {
+                    return setNewCarToEquipment(toUpdateEquipment, toUpdateCarEquipment);
+                } else {
+                    return previousCarEquipment;
+                }
+            }
+        } else {
+            if (toUpdateCarEquipment.getCar() != null) {
+                return setNewCarToEquipment(toUpdateEquipment, toUpdateCarEquipment);
+            }
+        }
+
+        return null;
+    }
+
+    private void takeEquipmentOutOfTheCar(CarEquipment previousCarEquipment) {
+        previousCarEquipment.setDateOfWithdrawal(new Date());
+        updateCarEquipment(previousCarEquipment);
+    }
+
+    private CarEquipment setNewCarToEquipment(Equipment toUpdateEquipment, CarEquipment toUpdateCarEquipment) {
+        CarEquipment newCarEquipment = new CarEquipment();
+        newCarEquipment.setEquipment(toUpdateEquipment);
+        newCarEquipment.setCar(toUpdateCarEquipment.getCar());
+        newCarEquipment.setQty(0);
+        newCarEquipment.setDateOfPut(new Date());
+        return addCarEquipment(newCarEquipment);
+    }
+
+
 }
+
+

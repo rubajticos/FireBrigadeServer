@@ -58,14 +58,7 @@ public class EquipmentService implements IEquipmentService {
 
     @Override
     public Equipment addEquipment(Equipment equipment) {
-        try {
-            if (!repository.existsByNameAndType(equipment.getName(), equipment.getType())) {
-                return repository.save(equipment);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+        return repository.save(equipment);
     }
 
     @Override
@@ -73,6 +66,7 @@ public class EquipmentService implements IEquipmentService {
         Equipment updateEquipment = repository.findOne(equipment.getId());
         updateEquipment.setName(equipment.getName());
         updateEquipment.setType(equipment.getType());
+        updateEquipment.setSubtype(equipment.getSubtype());
         return repository.save(updateEquipment);
     }
 
@@ -127,6 +121,5 @@ public class EquipmentService implements IEquipmentService {
         carEquipmentWithAllCars.setAllCars(carMapper.entityListToDtoList(cars));
 
         return carEquipmentWithAllCars;
-
     }
 }

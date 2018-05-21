@@ -22,5 +22,9 @@ public interface ICarEquipmentService {
 
     void deleteCarEquipment(int carEquipmentId);
 
+    CarEquipment createEquipmentAndSetToCar(CarEquipment carEquipment);
+
+    CarEquipment updateEquipmentAndUpdateCarSelection(CarEquipment carEquipment);
+
 
 }

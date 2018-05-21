@@ -1,12 +1,16 @@
 package com.firebrigadeserver.controller;
 
+import com.firebrigadeserver.dto.CarEquipmentDTO;
 import com.firebrigadeserver.dto.EquipmentDTO;
 import com.firebrigadeserver.dto.additional.CarEquipmentWithAllCars;
 import com.firebrigadeserver.dto.additional.EquipmentAdditional;
+import com.firebrigadeserver.dto.mapper.CarEquipmentMapper;
 import com.firebrigadeserver.dto.mapper.EquipmentMapper;
 import com.firebrigadeserver.dto.mapper.FireBrigadeMapper;
+import com.firebrigadeserver.entity.CarEquipment;
 import com.firebrigadeserver.entity.Equipment;
 import com.firebrigadeserver.entity.FireBrigade;
+import com.firebrigadeserver.service.ICarEquipmentService;
 import com.firebrigadeserver.service.IEquipmentService;
 import com.firebrigadeserver.service.IFireBrigadeService;
 import org.slf4j.Logger;
@@ -34,6 +38,12 @@ public class EquipmentController {
 
     @Autowired
     private FireBrigadeMapper fireBrigadeMapper;
+
+    @Autowired
+    private ICarEquipmentService carEquipmentService;
+
+    @Autowired
+    private CarEquipmentMapper carEquipmentMapper;
 
     @GetMapping("equipment/{id}")
     public ResponseEntity getEquipmentById(@PathVariable Integer id) {
@@ -131,21 +141,21 @@ public class EquipmentController {
                 .body(null);
     }
 
-    @RequestMapping(value = "equipment", method = RequestMethod.PUT)
-    public ResponseEntity updateEquipment(@RequestBody EquipmentDTO equipmentDto) {
-        Equipment equipment = equipmentMapper.dtoToEntity(equipmentDto);
-        equipment = equipmentService.updateEquipment(equipment);
-        if (equipment != null) {
-            EquipmentDTO updatedEquipment = equipmentMapper.entityToDto(equipment);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(updatedEquipment);
-        }
-
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(null);
-    }
+//    @RequestMapping(value = "equipment", method = RequestMethod.PUT)
+//    public ResponseEntity updateEquipment(@RequestBody EquipmentDTO equipmentDto) {
+//        Equipment equipment = equipmentMapper.dtoToEntity(equipmentDto);
+//        equipment = equipmentService.updateEquipment(equipment);
+//        if (equipment != null) {
+//            EquipmentDTO updatedEquipment = equipmentMapper.entityToDto(equipment);
+//            return ResponseEntity
+//                    .status(HttpStatus.OK)
+//                    .body(updatedEquipment);
+//        }
+//
+//        return ResponseEntity
+//                .status(HttpStatus.NOT_FOUND)
+//                .body(null);
+//    }
 
     @RequestMapping(value = "equipment/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteEquipment(@PathVariable Integer id) {
@@ -155,4 +165,37 @@ public class EquipmentController {
                 .body(null);
     }
 
+    @RequestMapping(value = "equipment/with-car/fireBrigade/{fireBrigadeId}", method = RequestMethod.POST)
+    public ResponseEntity addEquipmentAndSetToCar(@RequestBody CarEquipmentDTO carEquipmentDTO, @PathVariable Integer fireBrigadeId) {
+        FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeById(fireBrigadeId);
+        CarEquipment carEquipment = carEquipmentMapper.dtoToEntity(carEquipmentDTO);
+        carEquipment.getEquipment().setFireBrigade(fireBrigade);
+        carEquipment = carEquipmentService.createEquipmentAndSetToCar(carEquipment);
+        if (carEquipment != null) {
+            CarEquipmentDTO created = carEquipmentMapper.entityToDto(carEquipment);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(created);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+    }
+
+    @RequestMapping(value = "equipment", method = RequestMethod.PUT)
+    public ResponseEntity updateEquipmentAndHisCarSelection(@RequestBody CarEquipmentDTO carEquipmentDTO) {
+        CarEquipment carEquipment = carEquipmentMapper.dtoToEntity(carEquipmentDTO);
+        carEquipment = carEquipmentService.updateEquipmentAndUpdateCarSelection(carEquipment);
+        if (carEquipment != null) {
+            CarEquipmentDTO updated = carEquipmentMapper.entityToDto(carEquipment);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(updated);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+    }
 }
