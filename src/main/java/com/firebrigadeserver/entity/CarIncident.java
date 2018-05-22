@@ -59,6 +59,15 @@ public class CarIncident implements Serializable {
     public CarIncident() {
     }
 
+
+    public int getIdCarIncident() {
+        return idCarIncident;
+    }
+
+    public void setIdCarIncident(int idCarIncident) {
+        this.idCarIncident = idCarIncident;
+    }
+
     public Car getCar() {
         return car;
     }
@@ -73,6 +82,23 @@ public class CarIncident implements Serializable {
 
     public void setIncident(Incident incident) {
         this.incident = incident;
+    }
+
+
+    public Firefighter getCommander() {
+        return commander;
+    }
+
+    public void setCommander(Firefighter commander) {
+        this.commander = commander;
+    }
+
+    public Firefighter getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Firefighter driver) {
+        this.driver = driver;
     }
 
     public Date getDateTimeOfDeparture() {

@@ -20,6 +20,9 @@ public class IncidentService implements IIncidentService {
     @Autowired
     private FireBrigadeIncidentService fireBrigadeIncidentService;
 
+    @Autowired
+    private CarIncidentService carIncidentService;
+
 
     @Override
     @Transactional
@@ -47,7 +50,7 @@ public class IncidentService implements IIncidentService {
             firebrigadeIncidents = fireBrigadeIncidentService.addFireBrigadeIncident(firebrigadeIncidents);
 
             List<CarIncident> carIncidents = incident.getCars();
-//            carIncidents = carIncidentService.addCarIncident(carIncidents); todo odkomentowac
+            carIncidents = carIncidentService.addCarIncident(carIncidents);
 
             Incident incidentToCreate = incident;
             incidentToCreate.setFireBrigades(firebrigadeIncidents);
