@@ -1,8 +1,5 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -12,15 +9,16 @@ import java.util.Date;
 public class FirebrigadeIncident implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_firebrigade_incident", nullable = false, unique = true)
+    private int idFirebrigadeIncident;
+
     @ManyToOne
     @JoinColumn(name = "id_incident")
-    @JsonBackReference
     private Incident incident;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_firebrigade")
-    @JsonManagedReference
     private FireBrigade fireBrigade;
 
     @Column(name = "datetime_of_alarm", columnDefinition = "DATETIME")
@@ -28,6 +26,14 @@ public class FirebrigadeIncident implements Serializable {
     private Date dateTimeOfAlarm;
 
     public FirebrigadeIncident() {
+    }
+
+    public int getIdFirebrigadeIncident() {
+        return idFirebrigadeIncident;
+    }
+
+    public void setIdFirebrigadeIncident(int idFirebrigadeIncident) {
+        this.idFirebrigadeIncident = idFirebrigadeIncident;
     }
 
     public Incident getIncident() {

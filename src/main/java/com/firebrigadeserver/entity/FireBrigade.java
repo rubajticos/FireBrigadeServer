@@ -1,6 +1,5 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -52,7 +51,6 @@ public class FireBrigade implements Serializable {
     private List<Equipment> fireBrigadeEquipment;
 
     @OneToMany(mappedBy = "fireBrigade")
-    @JsonBackReference
     private List<FirebrigadeIncident> incidents;
 
     public FireBrigade() {

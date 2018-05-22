@@ -30,7 +30,6 @@ public class Incident implements Serializable {
     private String description;
 
     @OneToMany(mappedBy = "incident")
-    @JsonManagedReference
     private List<FirebrigadeIncident> fireBrigades;
 
     @OneToMany(mappedBy = "incident")
