@@ -1,19 +1,23 @@
 package com.firebrigadeserver.service;
 
 
+import com.firebrigadeserver.entity.Car;
+import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.Incident;
 
 import java.util.List;
 
 public interface IIncidentService {
 
-    List<Incident> getAllIncidents();
+    List<Incident> getIncidentsByFireBrigade(FireBrigade fireBrigade);
+
+    List<Incident> getIncidentsByCar(Car car);
 
     Incident getIncidentById(int incidentId);
 
-    boolean addIncident(Incident incident);
+    Incident addIncident(Incident incident);
 
-    void updateIncident(Incident incident);
+    Incident updateIncident(Incident incident);
 
     void deleteIncident(int incidentId);
 

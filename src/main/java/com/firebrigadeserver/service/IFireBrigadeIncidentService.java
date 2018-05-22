@@ -16,6 +16,8 @@ public interface IFireBrigadeIncidentService {
 
     FirebrigadeIncident addFireBrigadeIncident(FirebrigadeIncident firebrigadeIncident);
 
+    List<FirebrigadeIncident> addFireBrigadeIncident(List<FirebrigadeIncident> firebrigadeIncidents);
+
     FirebrigadeIncident updateFireBrigadeIncident(FirebrigadeIncident firebrigadeIncident);
 
     void deleteFireBrigadeIncident(int firebrigadeIncidentId);

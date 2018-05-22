@@ -1,12 +1,13 @@
 package com.firebrigadeserver.service;
 
-import com.firebrigadeserver.dao.IIncidentDAO;
-import com.firebrigadeserver.entity.Incident;
+import com.firebrigadeserver.entity.*;
+import com.firebrigadeserver.repositories.IncidentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,36 +15,61 @@ public class IncidentService implements IIncidentService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private IIncidentDAO incidentDAO;
+    private IncidentRepository incidentRepository;
+
+    @Autowired
+    private FireBrigadeIncidentService fireBrigadeIncidentService;
 
 
     @Override
-    public List<Incident> getAllIncidents() {
-        return incidentDAO.getAllIncidents();
+    @Transactional
+    public List<Incident> getIncidentsByFireBrigade(FireBrigade fireBrigade) {
+        return incidentRepository.findByFireBrigades_fireBrigade(fireBrigade);
     }
 
     @Override
+    @Transactional
+    public List<Incident> getIncidentsByCar(Car car) {
+        return incidentRepository.findByCars_car(car);
+    }
+
+    @Override
+    @Transactional
     public Incident getIncidentById(int incidentId) {
-        return incidentDAO.getIncidentById(incidentId);
+        return incidentRepository.findOne(incidentId);
     }
 
     @Override
-    public boolean addIncident(Incident incident) {
-        if (incidentDAO.incidentExist(incident.getType(), incident.getDate(), incident.getCity(), incident.getDescription())) {
-            return false;
-        } else {
-            incidentDAO.addIncident(incident);
-            return true;
+    @Transactional
+    public Incident addIncident(Incident incident) {
+        if (!incidentRepository.existsByTypeAndSubtypeAndDateAndCity(incident.getType(), incident.getSubtype(), incident.getDate(), incident.getCity())) {
+            List<FirebrigadeIncident> firebrigadeIncidents = incident.getFireBrigades();
+            firebrigadeIncidents = fireBrigadeIncidentService.addFireBrigadeIncident(firebrigadeIncidents);
+
+            List<CarIncident> carIncidents = incident.getCars();
+//            carIncidents = carIncidentService.addCarIncident(carIncidents); todo odkomentowac
+
+            Incident incidentToCreate = incident;
+            incidentToCreate.setFireBrigades(firebrigadeIncidents);
+            incidentToCreate.setCars(carIncidents);
+
+            return incidentRepository.save(incidentToCreate);
+
         }
+
+        return null;
     }
 
     @Override
-    public void updateIncident(Incident incident) {
-        incidentDAO.updateIncident(incident);
+    @Transactional
+    public Incident updateIncident(Incident incident) {
+        // TODO: 22/05/2018 aktualizacja zdarzenia
+        return null;
     }
 
     @Override
+    @Transactional
     public void deleteIncident(int incidentId) {
-        incidentDAO.deleteIncident(incidentId);
+        // TODO: 22/05/2018 usuwanie zdarzenia
     }
 }

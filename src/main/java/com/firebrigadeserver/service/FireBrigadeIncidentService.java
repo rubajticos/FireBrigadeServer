@@ -4,12 +4,14 @@ import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.FirebrigadeIncident;
 import com.firebrigadeserver.entity.Incident;
 import com.firebrigadeserver.repositories.FireBrigadeIncidentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 public class FireBrigadeIncidentService implements IFireBrigadeIncidentService {
 
+    @Autowired
     private FireBrigadeIncidentRepository fireBrigadeIncidentRepository;
 
 
@@ -38,6 +40,16 @@ public class FireBrigadeIncidentService implements IFireBrigadeIncidentService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<FirebrigadeIncident> addFireBrigadeIncident(List<FirebrigadeIncident> firebrigadeIncidents) {
+        for (FirebrigadeIncident f : firebrigadeIncidents) {
+            if (fireBrigadeIncidentRepository.existsByIncidentAndFireBrigade(f.getIncident(), f.getFireBrigade()))
+                return null;
+        }
+
+        return fireBrigadeIncidentRepository.save(firebrigadeIncidents);
     }
 
     @Override
