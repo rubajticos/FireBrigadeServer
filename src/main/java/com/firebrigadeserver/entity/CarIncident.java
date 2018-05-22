@@ -1,8 +1,5 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,16 +10,25 @@ import java.util.List;
 public class CarIncident implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_car_incident", nullable = false, unique = true)
+    private int idCarIncident;
+
     @ManyToOne
     @JoinColumn(name = "id_car")
-    @JsonManagedReference
     private Car car;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_incident")
-    @JsonBackReference
     private Incident incident;
+
+    @ManyToOne
+    @JoinColumn(name = "id_commander")
+    private Firefighter commander;
+
+    @ManyToOne
+    @JoinColumn(name = "id_driver")
+    private Firefighter driver;
 
     @Column(name = "datetime_of_departure", columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -35,22 +41,18 @@ public class CarIncident implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "firefighter_car_incident",
             joinColumns = {
-                    @JoinColumn(name = "id_car", nullable = false, updatable = false),
-                    @JoinColumn(name = "id_incident", nullable = false, updatable = false)},
+                    @JoinColumn(name = "id_car_incident", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_firefighter", nullable = false, updatable = false)}
     )
-    @JsonManagedReference
     private List<Firefighter> firefighters;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "used_equipment_of_car_in_incident",
             joinColumns = {
-                    @JoinColumn(name = "id_car", nullable = false, updatable = false),
-                    @JoinColumn(name = "id_incident", nullable = false, updatable = false)
+                    @JoinColumn(name = "id_car_incident", nullable = false, updatable = false),
             },
             inverseJoinColumns = {@JoinColumn(name = "id_equipment", nullable = false, updatable = false)}
     )
-    @JsonManagedReference
     private List<Equipment> usedEquipments;
 
 

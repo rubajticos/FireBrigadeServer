@@ -1,8 +1,5 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -31,16 +28,19 @@ public class Firefighter implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_fire_brigade")
-    @JsonBackReference
     private FireBrigade fireBrigade;
 
     @OneToMany(mappedBy = "firefighter")
-    @JsonManagedReference
     private List<FirefighterTraining> trainings;
 
     @ManyToMany(mappedBy = "firefighters", fetch = FetchType.LAZY)
-    @JsonBackReference
     private List<CarIncident> carsAndIncidents;
+
+    @OneToMany(mappedBy = "commander")
+    private List<CarIncident> incidentsAsCommander;
+
+    @OneToMany(mappedBy = "driver")
+    private List<CarIncident> incidentsAsDriver;
 
     public Firefighter() {
         this(-1, null, null, null, null);
@@ -122,5 +122,21 @@ public class Firefighter implements Serializable {
 
     public void setCarsAndIncidents(List<CarIncident> carsAndIncidents) {
         this.carsAndIncidents = carsAndIncidents;
+    }
+
+    public List<CarIncident> getIncidentsAsCommander() {
+        return incidentsAsCommander;
+    }
+
+    public void setIncidentsAsCommander(List<CarIncident> incidentsAsCommander) {
+        this.incidentsAsCommander = incidentsAsCommander;
+    }
+
+    public List<CarIncident> getIncidentsAsDriver() {
+        return incidentsAsDriver;
+    }
+
+    public void setIncidentsAsDriver(List<CarIncident> incidentsAsDriver) {
+        this.incidentsAsDriver = incidentsAsDriver;
     }
 }

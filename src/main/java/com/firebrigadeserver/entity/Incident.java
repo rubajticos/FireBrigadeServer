@@ -1,7 +1,5 @@
 package com.firebrigadeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -36,7 +34,6 @@ public class Incident implements Serializable {
     private List<FirebrigadeIncident> fireBrigades;
 
     @OneToMany(mappedBy = "incident")
-    @JsonManagedReference
     private List<CarIncident> cars;
 
     public Incident() {
