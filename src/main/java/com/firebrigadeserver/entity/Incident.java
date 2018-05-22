@@ -19,6 +19,9 @@ public class Incident implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "subtype")
+    private String subtype;
+
     @Column(name = "date", columnDefinition = "DATE")
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -37,13 +40,14 @@ public class Incident implements Serializable {
     private List<CarIncident> cars;
 
     public Incident() {
-        this(-1, null, null, null, null);
+        this(-1, null, null, null, null, null);
     }
 
-    public Incident(int id, String description, String type, Date date, String city) {
+    public Incident(int id, String description, String type, String subtype, Date date, String city) {
         this.id = id;
         this.description = description;
         this.type = type;
+        this.subtype = subtype;
         this.date = date;
         this.city = city;
     }
@@ -70,6 +74,14 @@ public class Incident implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSubtype() {
+        return subtype;
+    }
+
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
     }
 
     public Date getDate() {
