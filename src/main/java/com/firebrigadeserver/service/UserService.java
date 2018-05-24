@@ -1,6 +1,5 @@
 package com.firebrigadeserver.service;
 
-import com.firebrigadeserver.dao.IUserDAO;
 import com.firebrigadeserver.entity.User;
 import com.firebrigadeserver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,6 @@ import java.util.List;
 
 @Service
 public class UserService implements IUserService {
-
-    @Autowired
-    private IUserDAO userDAO;
 
     @Autowired
     private UserRepository userRepository;

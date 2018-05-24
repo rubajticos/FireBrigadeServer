@@ -1,5 +1,10 @@
 package com.firebrigadeserver.service;
 
+import com.firebrigadeserver.dto.additional.CarWithEquipment;
+import com.firebrigadeserver.dto.additional.CarsAndFirefighters;
+import com.firebrigadeserver.dto.mapper.CarMapper;
+import com.firebrigadeserver.dto.mapper.EquipmentMapper;
+import com.firebrigadeserver.dto.mapper.FirefighterMapper;
 import com.firebrigadeserver.entity.*;
 import com.firebrigadeserver.repositories.IncidentRepository;
 import org.slf4j.Logger;
@@ -8,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +28,30 @@ public class IncidentService implements IIncidentService {
 
     @Autowired
     private CarIncidentService carIncidentService;
+
+    @Autowired
+    private FireBrigadeService fireBrigadeService;
+
+    @Autowired
+    private FirefighterService firefighterService;
+
+    @Autowired
+    private FirefighterMapper firefighterMapper;
+
+    @Autowired
+    private CarService carService;
+
+    @Autowired
+    private CarMapper carMapper;
+
+    @Autowired
+    private EquipmentService equipmentService;
+
+    @Autowired
+    private CarEquipmentService carEquipmentService;
+
+    @Autowired
+    private EquipmentMapper equipmentMapper;
 
 
     @Override
@@ -46,18 +76,24 @@ public class IncidentService implements IIncidentService {
     @Transactional
     public Incident addIncident(Incident incident) {
         if (!incidentRepository.existsByTypeAndSubtypeAndDateAndCity(incident.getType(), incident.getSubtype(), incident.getDate(), incident.getCity())) {
+            Incident createdIncident = incidentRepository.save(incident);
+
             List<FirebrigadeIncident> firebrigadeIncidents = incident.getFireBrigades();
+            for (FirebrigadeIncident fi : firebrigadeIncidents) {
+                fi.setIncident(createdIncident);
+            }
             firebrigadeIncidents = fireBrigadeIncidentService.addFireBrigadeIncident(firebrigadeIncidents);
 
             List<CarIncident> carIncidents = incident.getCars();
+            for (CarIncident ci : carIncidents) {
+                ci.setIncident(createdIncident);
+            }
             carIncidents = carIncidentService.addCarIncident(carIncidents);
 
-            Incident incidentToCreate = incident;
-            incidentToCreate.setFireBrigades(firebrigadeIncidents);
-            incidentToCreate.setCars(carIncidents);
+            createdIncident.setFireBrigades(firebrigadeIncidents);
+            createdIncident.setCars(carIncidents);
 
-            return incidentRepository.save(incidentToCreate);
-
+            return incidentRepository.save(createdIncident);
         }
 
         return null;
@@ -74,5 +110,53 @@ public class IncidentService implements IIncidentService {
     @Transactional
     public void deleteIncident(int incidentId) {
         // TODO: 22/05/2018 usuwanie zdarzenia
+    }
+
+    @Override
+    @Transactional
+    public CarsAndFirefighters getDataForPreparingIncident(int fireBrigadeId) {
+        FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeById(fireBrigadeId);
+        CarsAndFirefighters carsAndFirefighters = new CarsAndFirefighters();
+
+        List<Firefighter> commanders = firefighterService.getCommanders(fireBrigade);
+        List<Firefighter> drivers = firefighterService.getDrivers(fireBrigade);
+        List<Firefighter> firefighters = firefighterService.getFirefightersByFirebrigade(fireBrigadeId);
+
+        List<Car> cars = carService.getCarsByFireBrigade(fireBrigadeId);
+
+        List<CarWithEquipment> carWithEquipments = prepareCarWithEquipment(cars);
+
+        carsAndFirefighters.setCars(carWithEquipments);
+        carsAndFirefighters.setCommanders(firefighterMapper.entityListToDtoList(commanders));
+        carsAndFirefighters.setDrivers(firefighterMapper.entityListToDtoList(drivers));
+        carsAndFirefighters.setFirefighters(firefighterMapper.entityListToDtoList(firefighters));
+
+        return carsAndFirefighters;
+    }
+
+    private List<CarWithEquipment> prepareCarWithEquipment(List<Car> cars) {
+        List<CarWithEquipment> carWithEquipments = new ArrayList<>();
+        for (Car c : cars) {
+            CarWithEquipment carWithEquipment = new CarWithEquipment();
+
+            List<CarEquipment> carEquipments = carEquipmentService.getActiveCarEquipmentForCar(c.getId());
+
+            List<Equipment> equipment = prepareEquipments(carEquipments);
+
+            carWithEquipment.setCarDTO(carMapper.entityToDto(c));
+            carWithEquipment.setEquipments(equipmentMapper.entityListToDtoList(equipment));
+            carWithEquipments.add(carWithEquipment);
+
+        }
+        return carWithEquipments;
+    }
+
+    private List<Equipment> prepareEquipments(List<CarEquipment> carEquipments) {
+        List<Equipment> equipmentList = new ArrayList<>();
+
+        for (CarEquipment ce : carEquipments) {
+            equipmentList.add(ce.getEquipment());
+        }
+        return equipmentList;
     }
 }

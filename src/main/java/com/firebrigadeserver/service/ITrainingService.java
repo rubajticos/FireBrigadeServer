@@ -7,4 +7,6 @@ import java.util.List;
 public interface ITrainingService {
 
     List<Training> getAllTrainings();
+
+    Training getTrainingByName(String trainingName);
 }

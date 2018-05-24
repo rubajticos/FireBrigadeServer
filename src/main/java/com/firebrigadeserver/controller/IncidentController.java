@@ -1,5 +1,6 @@
 package com.firebrigadeserver.controller;
 
+import com.firebrigadeserver.dto.additional.CarsAndFirefighters;
 import com.firebrigadeserver.entity.Incident;
 import com.firebrigadeserver.service.IIncidentService;
 import org.slf4j.Logger;
@@ -9,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("incident")
 public class IncidentController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -23,12 +21,6 @@ public class IncidentController {
     public ResponseEntity<Incident> getIncidentById(@PathVariable Integer id) {
         Incident incident = incidentService.getIncidentById(id);
         return new ResponseEntity<Incident>(incident, HttpStatus.OK);
-    }
-
-    @GetMapping("incidents")
-    public ResponseEntity<List<Incident>> getAllIncidents() {
-        List<Incident> list = incidentService.getAllIncidents();
-        return new ResponseEntity<List<Incident>>(list, HttpStatus.OK);
     }
 
     @RequestMapping(value = "incident", method = RequestMethod.POST)
@@ -52,5 +44,20 @@ public class IncidentController {
     public ResponseEntity<Void> deleteCar(@PathVariable Integer id) {
         incidentService.deleteIncident(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @GetMapping("incident/prepare/firebrigade/{fireBrigadeId}")
+    public ResponseEntity getPreparedDataForIncident(@PathVariable Integer fireBrigadeId) {
+        CarsAndFirefighters prepared = incidentService.getDataForPreparingIncident(fireBrigadeId);
+        if (prepared != null) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(prepared);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
     }
 }

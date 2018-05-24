@@ -20,4 +20,8 @@ public interface IFirefighterService {
     Firefighter updateFirefighter(Firefighter firefighter);
 
     void deleteFirefighter(int firefighterId);
+
+    List<Firefighter> getCommanders(FireBrigade fireBrigade);
+
+    List<Firefighter> getDrivers(FireBrigade fireBrigade);
 }

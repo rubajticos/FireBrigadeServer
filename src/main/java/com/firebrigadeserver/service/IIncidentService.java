@@ -1,6 +1,7 @@
 package com.firebrigadeserver.service;
 
 
+import com.firebrigadeserver.dto.additional.CarsAndFirefighters;
 import com.firebrigadeserver.entity.Car;
 import com.firebrigadeserver.entity.FireBrigade;
 import com.firebrigadeserver.entity.Incident;
@@ -20,6 +21,8 @@ public interface IIncidentService {
     Incident updateIncident(Incident incident);
 
     void deleteIncident(int incidentId);
+
+    CarsAndFirefighters getDataForPreparingIncident(int fireBrigadeId);
 
 
 }
