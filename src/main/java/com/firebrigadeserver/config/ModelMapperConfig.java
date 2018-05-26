@@ -62,4 +62,14 @@ public class ModelMapperConfig {
     public CarIncidentMapper carIncidentMapper() {
         return new CarIncidentMapper();
     }
+
+    @Bean
+    public IncidentMapper incidentMapper() {
+        return new IncidentMapper();
+    }
+
+    @Bean
+    public IncidentFullMapper incidentFullMapper() {
+        return new IncidentFullMapper();
+    }
 }

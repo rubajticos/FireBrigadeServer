@@ -2,6 +2,7 @@ package com.firebrigadeserver.service;
 
 import com.firebrigadeserver.dto.additional.CarWithEquipment;
 import com.firebrigadeserver.dto.additional.CarsAndFirefighters;
+import com.firebrigadeserver.dto.additional.IncidentFull;
 import com.firebrigadeserver.dto.mapper.CarMapper;
 import com.firebrigadeserver.dto.mapper.EquipmentMapper;
 import com.firebrigadeserver.dto.mapper.FirefighterMapper;
@@ -74,29 +75,55 @@ public class IncidentService implements IIncidentService {
 
     @Override
     @Transactional
-    public Incident addIncident(Incident incident) {
-        if (!incidentRepository.existsByTypeAndSubtypeAndDateAndCity(incident.getType(), incident.getSubtype(), incident.getDate(), incident.getCity())) {
-            Incident createdIncident = incidentRepository.save(incident);
+    public IncidentFull addIncident(IncidentFull incidentFull) {
+        Incident candidateIncident = incidentFull.getIncident();
+        List<CarIncident> candidateCars = incidentFull.getCars();
+        List<FirebrigadeIncident> candidateFirebrigade = incidentFull.getFireBrigades();
+        List<FirebrigadeIncident> clearFireBrigades = candidateIncident.getFireBrigades();
+        clearFireBrigades.clear();
+        candidateIncident.setFireBrigades(clearFireBrigades);
 
-            List<FirebrigadeIncident> firebrigadeIncidents = incident.getFireBrigades();
-            for (FirebrigadeIncident fi : firebrigadeIncidents) {
-                fi.setIncident(createdIncident);
-            }
-            firebrigadeIncidents = fireBrigadeIncidentService.addFireBrigadeIncident(firebrigadeIncidents);
+        candidateIncident = incidentRepository.save(candidateIncident);
+        System.out.println("Po dodaniu zdarzenia");
+        if (candidateIncident != null) {
+            candidateCars = fillIncidentIntoCars(candidateCars, candidateIncident);
+            candidateFirebrigade = fillIncidentIntoFireBrigades(candidateFirebrigade, candidateIncident);
 
-            List<CarIncident> carIncidents = incident.getCars();
-            for (CarIncident ci : carIncidents) {
-                ci.setIncident(createdIncident);
-            }
-            carIncidents = carIncidentService.addCarIncident(carIncidents);
+            candidateCars = carIncidentService.addCarIncident(candidateCars);
+            candidateFirebrigade = fireBrigadeIncidentService.addFireBrigadeIncident(candidateFirebrigade);
 
-            createdIncident.setFireBrigades(firebrigadeIncidents);
-            createdIncident.setCars(carIncidents);
+            candidateIncident.setCars(candidateCars);
+            candidateIncident.setFireBrigades(candidateFirebrigade);
 
-            return incidentRepository.save(createdIncident);
+            Incident addedIncident = incidentRepository.save(candidateIncident);
+
+            IncidentFull addedFullIncident = new IncidentFull();
+            addedFullIncident.setIncident(addedIncident);
+            addedFullIncident.setFireBrigades(addedIncident.getFireBrigades());
+            addedFullIncident.setCars(addedIncident.getCars());
+
+            return addedFullIncident;
         }
 
         return null;
+    }
+
+    private List<FirebrigadeIncident> fillIncidentIntoFireBrigades(List<FirebrigadeIncident> candidateFirebrigade, Incident candidateIncident) {
+        List<FirebrigadeIncident> withCars = candidateFirebrigade;
+        for (FirebrigadeIncident f : withCars) {
+            f.setIncident(candidateIncident);
+        }
+
+        return withCars;
+    }
+
+    private List<CarIncident> fillIncidentIntoCars(List<CarIncident> candidateCars, Incident candidateIncident) {
+        List<CarIncident> withCars = candidateCars;
+        for (CarIncident c : withCars) {
+            c.setIncident(candidateIncident);
+        }
+
+        return withCars;
     }
 
     @Override
