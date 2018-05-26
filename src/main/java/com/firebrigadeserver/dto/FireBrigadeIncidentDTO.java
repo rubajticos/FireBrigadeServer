@@ -1,34 +1,47 @@
 package com.firebrigadeserver.dto;
 
+import java.util.Date;
+
 public class FireBrigadeIncidentDTO {
 
 
-    private int indcidentId;
-    private int firebrigadeId;
+    private int idFireBrigadeIncident;
+    private IncidentDTO incident;
+    private FireBrigadeDTO fireBrigade;
+    private Date dateTimeOfAlarm;
 
-    private String date;
-
-    public int getIndcidentId() {
-        return indcidentId;
+    public FireBrigadeIncidentDTO() {
     }
 
-    public void setIndcidentId(int indcidentId) {
-        this.indcidentId = indcidentId;
+    public int getIdFireBrigadeIncident() {
+        return idFireBrigadeIncident;
     }
 
-    public int getFirebrigadeId() {
-        return firebrigadeId;
+    public void setIdFireBrigadeIncident(int idFireBrigadeIncident) {
+        this.idFireBrigadeIncident = idFireBrigadeIncident;
     }
 
-    public void setFirebrigadeId(int firebrigadeId) {
-        this.firebrigadeId = firebrigadeId;
+    public IncidentDTO getIncident() {
+        return incident;
     }
 
-    public String getDate() {
-        return this.date;
+    public void setIncident(IncidentDTO incident) {
+        this.incident = incident;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public FireBrigadeDTO getFireBrigade() {
+        return fireBrigade;
+    }
+
+    public void setFireBrigade(FireBrigadeDTO fireBrigade) {
+        this.fireBrigade = fireBrigade;
+    }
+
+    public Date getDateTimeOfAlarm() {
+        return dateTimeOfAlarm;
+    }
+
+    public void setDateTimeOfAlarm(Date dateTimeOfAlarm) {
+        this.dateTimeOfAlarm = dateTimeOfAlarm;
     }
 }

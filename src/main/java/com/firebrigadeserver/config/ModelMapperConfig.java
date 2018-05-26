@@ -57,4 +57,9 @@ public class ModelMapperConfig {
     public CarEquipmentMapper carEquipmentMapper() {
         return new CarEquipmentMapper();
     }
+
+    @Bean
+    public CarIncidentMapper carIncidentMapper() {
+        return new CarIncidentMapper();
+    }
 }
