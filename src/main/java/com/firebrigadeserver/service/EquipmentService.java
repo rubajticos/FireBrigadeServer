@@ -48,7 +48,7 @@ public class EquipmentService implements IEquipmentService {
     @Override
     public List<Equipment> getEquipmentsByFireBrigade(int fireBrigadeId) {
         FireBrigade fb = fireBrigadeService.getFireBrigadeById(fireBrigadeId);
-        return repository.findByFireBrigade(fb);
+        return repository.findByFireBrigadeOrderByEquipmentOnTheCar_CarAscNameAsc(fb);
     }
 
     @Override

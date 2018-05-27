@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface EquipmentRepository extends JpaRepository<Equipment, Integer> {
 
-    List<Equipment> findByFireBrigade(FireBrigade fireBrigade);
+    List<Equipment> findByFireBrigadeOrderByEquipmentOnTheCar_CarAscNameAsc(FireBrigade fireBrigade);
 
     boolean existsByNameAndType(String name, String type);
 }

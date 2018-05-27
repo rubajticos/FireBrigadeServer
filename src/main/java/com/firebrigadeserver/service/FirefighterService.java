@@ -30,7 +30,7 @@ public class FirefighterService implements IFirefighterService {
     @Override
     public List<Firefighter> getFirefightersByFirebrigade(int firebrigadeId) {
         FireBrigade fb = fireBrigadeRepository.findByIdFireBrigade(firebrigadeId);
-        return repository.findByFireBrigade(fb);
+        return repository.findByFireBrigadeOrderByLastNameAscNameAsc(fb);
     }
 
     @Override
