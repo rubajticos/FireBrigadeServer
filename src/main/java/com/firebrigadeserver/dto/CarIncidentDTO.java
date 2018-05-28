@@ -13,10 +13,10 @@ public class CarIncidentDTO {
     private FirefighterDTO commander;
     private FirefighterDTO driver;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date dateTimeOfDeparture;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date dateTimeOfReturn;
 
     private List<FirefighterDTO> firefighters;

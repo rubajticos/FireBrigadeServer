@@ -58,7 +58,7 @@ public class IncidentService implements IIncidentService {
     @Override
     @Transactional
     public List<IncidentFull> getIncidentsByFireBrigade(FireBrigade fireBrigade) {
-        List<Incident> incidents = incidentRepository.findByFireBrigades_fireBrigade(fireBrigade);
+        List<Incident> incidents = incidentRepository.findByFireBrigades_fireBrigadeOrderByDateDesc(fireBrigade);
         List<IncidentFull> fullIncidents = new ArrayList<>();
 
         for (Incident inc : incidents) {

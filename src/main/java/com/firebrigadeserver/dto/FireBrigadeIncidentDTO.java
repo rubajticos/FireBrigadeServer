@@ -11,7 +11,7 @@ public class FireBrigadeIncidentDTO {
     private IncidentDTO incident;
     private FireBrigadeDTO fireBrigade;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date dateTimeOfAlarm;
 
     public FireBrigadeIncidentDTO() {

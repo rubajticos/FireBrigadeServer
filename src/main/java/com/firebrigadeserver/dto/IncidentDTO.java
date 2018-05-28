@@ -1,5 +1,7 @@
 package com.firebrigadeserver.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class IncidentDTO {
@@ -7,6 +9,8 @@ public class IncidentDTO {
     private int id;
     private String type;
     private String subtype;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date date;
     private String city;
     private String description;

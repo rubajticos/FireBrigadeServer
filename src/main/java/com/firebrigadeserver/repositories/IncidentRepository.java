@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IncidentRepository extends JpaRepository<Incident, Integer> {
 
-    List<Incident> findByFireBrigades_fireBrigade(FireBrigade fireBrigade);
+    List<Incident> findByFireBrigades_fireBrigadeOrderByDateDesc(FireBrigade fireBrigade);
 
     List<Incident> findByCars_car(Car car);
 
