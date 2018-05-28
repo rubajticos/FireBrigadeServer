@@ -6,6 +6,7 @@ public class EquipmentDTO {
     private String name;
     private String type;
     private String subtype;
+    private FireBrigadeDTO fireBrigade;
 
     public EquipmentDTO() {
     }
@@ -46,5 +47,13 @@ public class EquipmentDTO {
 
     public void setSubtype(String subtype) {
         this.subtype = subtype;
+    }
+
+    public FireBrigadeDTO getFireBrigade() {
+        return fireBrigade;
+    }
+
+    public void setFireBrigade(FireBrigadeDTO fireBrigade) {
+        this.fireBrigade = fireBrigade;
     }
 }

@@ -9,6 +9,7 @@ public class FirefighterDTO {
     private String lastName;
     private Date birthday;
     private Date expiryMedicalTest;
+    private FireBrigadeDTO fireBrigade;
 
     public int getIdFirefighter() {
         return idFirefighter;
@@ -48,5 +49,13 @@ public class FirefighterDTO {
 
     public void setExpiryMedicalTest(Date expiryMedicalTest) {
         this.expiryMedicalTest = expiryMedicalTest;
+    }
+
+    public FireBrigadeDTO getFireBrigade() {
+        return fireBrigade;
+    }
+
+    public void setFireBrigade(FireBrigadeDTO fireBrigade) {
+        this.fireBrigade = fireBrigade;
     }
 }

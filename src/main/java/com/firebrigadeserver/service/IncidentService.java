@@ -82,6 +82,11 @@ public class IncidentService implements IIncidentService {
         List<FirebrigadeIncident> clearFireBrigades = candidateIncident.getFireBrigades();
         clearFireBrigades.clear();
         candidateIncident.setFireBrigades(clearFireBrigades);
+        List<CarIncident> candindateCars = incidentFull.getCars();
+        List<CarIncident> clearCars = candidateIncident.getCars();
+        clearCars.clear();
+        candidateIncident.setCars(clearCars);
+
 
         candidateIncident = incidentRepository.save(candidateIncident);
         System.out.println("Po dodaniu zdarzenia");
