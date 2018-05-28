@@ -1,5 +1,7 @@
 package com.firebrigadeserver.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +12,13 @@ public class CarIncidentDTO {
     private IncidentDTO incident;
     private FirefighterDTO commander;
     private FirefighterDTO driver;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dateTimeOfDeparture;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dateTimeOfReturn;
+
     private List<FirefighterDTO> firefighters;
     private List<EquipmentDTO> usedEquipments;
 

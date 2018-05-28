@@ -36,9 +36,36 @@ public class IncidentController {
     private IncidentFullMapper incidentFullMapper;
 
     @GetMapping("incident/{id}")
-    public ResponseEntity<Incident> getIncidentById(@PathVariable Integer id) {
-        Incident incident = incidentService.getIncidentById(id);
-        return new ResponseEntity<Incident>(incident, HttpStatus.OK);
+    public ResponseEntity getIncidentById(@PathVariable Integer id) {
+        IncidentFull incident = incidentService.getIncidentById(id);
+
+        if (incident != null) {
+            IncidentFullDTO incidentDTO = incidentFullMapper.entityToDto(incident);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(incidentDTO);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+
+    }
+
+    @GetMapping("incident/firebrigade/{id}")
+    public ResponseEntity getIncidentsByFirebrigade(@PathVariable Integer id) {
+        FireBrigade fireBrigade = fireBrigadeService.getFireBrigadeById(id);
+        List<IncidentFull> incidentFulls = incidentService.getIncidentsByFireBrigade(fireBrigade);
+        if (incidentFulls.size() > 0) {
+            List<IncidentFullDTO> incidentFullDTOS = incidentFullMapper.entityListToDtoList(incidentFulls);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(incidentFullDTOS);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
     }
 
     @RequestMapping(value = "incident/firebrigade/{fireBrigadeId}", method = RequestMethod.POST)

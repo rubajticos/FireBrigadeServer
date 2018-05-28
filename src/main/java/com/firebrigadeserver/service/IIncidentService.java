@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface IIncidentService {
 
-    List<Incident> getIncidentsByFireBrigade(FireBrigade fireBrigade);
+    List<IncidentFull> getIncidentsByFireBrigade(FireBrigade fireBrigade);
 
     List<Incident> getIncidentsByCar(Car car);
 
-    Incident getIncidentById(int incidentId);
+    IncidentFull getIncidentById(int incidentId);
 
     IncidentFull addIncident(IncidentFull incidentFull);
 

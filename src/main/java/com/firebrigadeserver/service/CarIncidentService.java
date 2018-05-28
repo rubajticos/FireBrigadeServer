@@ -1,6 +1,7 @@
 package com.firebrigadeserver.service;
 
 import com.firebrigadeserver.entity.CarIncident;
+import com.firebrigadeserver.entity.Incident;
 import com.firebrigadeserver.repositories.CarIncidentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,12 @@ public class CarIncidentService implements ICarIncidentService {
 
         return carIncidentRepository.save(carIncidents);
     }
+
+    @Override
+    public List<CarIncident> getCarIncidentByIncident(Incident incident) {
+        return carIncidentRepository.findByIncident(incident);
+    }
+
 
     @Override
     @Transactional

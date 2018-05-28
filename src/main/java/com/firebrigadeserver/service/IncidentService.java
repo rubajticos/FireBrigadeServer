@@ -57,8 +57,23 @@ public class IncidentService implements IIncidentService {
 
     @Override
     @Transactional
-    public List<Incident> getIncidentsByFireBrigade(FireBrigade fireBrigade) {
-        return incidentRepository.findByFireBrigades_fireBrigade(fireBrigade);
+    public List<IncidentFull> getIncidentsByFireBrigade(FireBrigade fireBrigade) {
+        List<Incident> incidents = incidentRepository.findByFireBrigades_fireBrigade(fireBrigade);
+        List<IncidentFull> fullIncidents = new ArrayList<>();
+
+        for (Incident inc : incidents) {
+            List<CarIncident> cars = carIncidentService.getCarIncidentByIncident(inc);
+            List<FirebrigadeIncident> firebrigades = fireBrigadeIncidentService.getFireBrigadeIncidentsForIncident(inc);
+
+            IncidentFull fullDataIncident = new IncidentFull();
+            fullDataIncident.setIncident(inc);
+            fullDataIncident.setCars(cars);
+            fullDataIncident.setFireBrigades(firebrigades);
+            fullIncidents.add(fullDataIncident);
+        }
+
+
+        return fullIncidents;
     }
 
     @Override
@@ -69,8 +84,17 @@ public class IncidentService implements IIncidentService {
 
     @Override
     @Transactional
-    public Incident getIncidentById(int incidentId) {
-        return incidentRepository.findOne(incidentId);
+    public IncidentFull getIncidentById(int incidentId) {
+        Incident incident = incidentRepository.findOne(incidentId);
+        List<CarIncident> cars = carIncidentService.getCarIncidentByIncident(incident);
+        List<FirebrigadeIncident> firebrigades = fireBrigadeIncidentService.getFireBrigadeIncidentsForIncident(incident);
+
+        IncidentFull fullDataIncident = new IncidentFull();
+        fullDataIncident.setIncident(incident);
+        fullDataIncident.setCars(cars);
+        fullDataIncident.setFireBrigades(firebrigades);
+
+        return fullDataIncident;
     }
 
     @Override
