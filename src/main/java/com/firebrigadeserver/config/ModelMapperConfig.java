@@ -5,6 +5,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 @Configuration
 public class ModelMapperConfig {
 
@@ -71,5 +74,10 @@ public class ModelMapperConfig {
     @Bean
     public IncidentFullMapper incidentFullMapper() {
         return new IncidentFullMapper();
+    }
+
+    @Bean
+    public SimpleDateFormat simpleDateFormat() {
+        return new SimpleDateFormat("yyyy_MM_dd", Locale.getDefault());
     }
 }

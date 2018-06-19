@@ -82,7 +82,6 @@ public class CarController {
                 .body(null);
     }
 
-
     @RequestMapping(value = "car/firebrigade/{fireBrigadeId}", method = RequestMethod.POST)
     public ResponseEntity addCar(@RequestBody CarDTO carDTO, @PathVariable Integer fireBrigadeId) {
         try {
